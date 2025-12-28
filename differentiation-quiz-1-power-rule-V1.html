@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS Maths Differentiation Mastery Quiz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        /* Name Entry Section */
+        .name-entry {
+            background: #ebf8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .name-input {
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #4299e1;
+            border-radius: 8px;
+            width: 300px;
+            max-width: 100%;
+            margin: 10px auto;
+            text-align: center;
+            display: block;
+        }
+        
+        /* Mastery Certificate */
+        .certificate {
+            background: #fff9db;
+            border: 8px solid #ffd43b;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .certificate.active {
+            display: block;
+        }
+        
+        .certificate-header {
+            color: #2d3748;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .certificate-subtitle {
+            color: #4a5568;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .certificate-name {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(90deg, #ffd43b, #ffec99);
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .certificate-details {
+            font-size: 1.1em;
+            color: #4a5568;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .certificate-date {
+            margin-top: 30px;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .certificate-stamp {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            transform: rotate(15deg);
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .print-btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .print-btn:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+        
+        .mastery-banner {
+            background: #48bb78;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #4299e1;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .question.correct {
+            border-color: #48bb78;
+            background-color: #f0fff4;
+        }
+        
+        .question.incorrect {
+            border-color: #f56565;
+            background-color: #fff5f5;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2b6cb0;
+            font-size: 1.1em;
+            background: #ebf8ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        
+        .function {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 1.4em;
+            padding: 15px;
+            background: white;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .question-text {
+            font-family: 'Cambria Math', serif;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            background: #f7fafc;
+            transform: translateY(-1px);
+        }
+        
+        .option.selected {
+            border-color: #4299e1;
+            background: #ebf8ff;
+        }
+        
+        .option.correct-option {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+        
+        .option.incorrect-option {
+            border-color: #f56565;
+            background: #fff5f5;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .option-label {
+            font-family: 'Cambria Math', serif;
+            font-size: 1.2em;
+            flex: 1;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95em;
+        }
+        
+        .correct-feedback {
+            background-color: #f0fff4;
+            border: 1px solid #c6f6d5;
+            color: #22543d;
+        }
+        
+        .incorrect-feedback {
+            background-color: #fff5f5;
+            border: 1px solid #fed7d7;
+            color: #742a2a;
+        }
+        
+        .explanation {
+            font-size: 0.9em;
+            color: #4a5568;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 14px 28px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        #startBtn, #checkBtn {
+            background: #4299e1;
+            color: white;
+            flex: 2;
+        }
+        
+        #startBtn:hover, #checkBtn:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+        
+        #checkBtn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        #retryBtn {
+            background: #ed8936;
+            color: white;
+            flex: 1;
+            display: none;
+        }
+        
+        #retryBtn:hover {
+            background: #dd6b20;
+        }
+        
+        #newQuizBtn {
+            background: #48bb78;
+            color: white;
+            flex: 1;
+            display: none;
+        }
+        
+        #newQuizBtn:hover {
+            background: #38a169;
+        }
+        
+        .score {
+            text-align: center;
+            font-size: 1.3em;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .instructions {
+            background: #ebf8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .completion-status {
+            text-align: center;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4299e1;
+        }
+        
+        .answer-status {
+            font-size: 0.9em;
+            margin-left: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .correct-status {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .incorrect-status {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .math-display {
+            font-family: 'Cambria Math', serif;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+        
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .fraction .numerator {
+            display: block;
+            padding: 0 5px;
+        }
+        
+        .fraction .denominator {
+            display: block;
+            border-top: 1px solid #333;
+            padding: 0 5px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 10px;
+            }
+            
+            .question, .buttons, .instructions, .stats,
+            .progress-bar, .score, .completion-status,
+            .mastery-banner, .name-entry {
+                display: none !important;
+            }
+            
+            .certificate {
+                display: block !important;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .print-btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .function {
+                font-size: 1.2em;
+            }
+            
+            .option-label {
+                font-size: 1.1em;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .name-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AS Maths Differentiation Mastery Quiz</h1>
+        <div class="subtitle">Quiz 1: Differentiating y = axⁿ • Score 100% to proceed</div>
+        
+        <!-- Name Entry Section -->
+        <div class="name-entry" id="nameEntry">
+            <h2>Enter Your Name</h2>
+            <p>Please enter your full name to begin the quiz. This will be used for your mastery certificate.</p>
+            <input type="text" id="studentName" class="name-input" placeholder="Enter your full name" maxlength="50">
+            <button id="startBtn" onclick="startQuiz()">Start Quiz</button>
+        </div>
+        
+        <!-- Mastery Certificate -->
+        <div class="certificate" id="certificate">
+            <div class="certificate-header">Certificate of Mastery</div>
+            <div class="certificate-subtitle">in AS Level Mathematics</div>
+            
+            <div class="certificate-details">
+                This certifies that
+            </div>
+            
+            <div class="certificate-name" id="certificateName">[Student Name]</div>
+            
+            <div class="certificate-details">
+                has successfully achieved mastery in<br>
+                <strong>Differentiation: Power Rule & Basic Functions</strong><br><br>
+                by scoring 100% on the mastery quiz, demonstrating complete understanding<br>
+                of differentiating functions of the form y = axⁿ.
+            </div>
+            
+            <div class="certificate-date" id="certificateDate"></div>
+            
+            <div class="certificate-stamp">
+                MASTERY<br>ACHIEVED
+            </div>
+            
+            <button class="print-btn" onclick="printCertificate()">Print Certificate</button>
+            <button class="print-btn" style="background: #48bb78; margin-left: 10px;" onclick="continueToNextQuiz()">Continue to Quiz 2</button>
+        </div>
+        
+        <div class="mastery-banner" id="masteryBanner">
+            🎉 MASTERY ACHIEVED! 🎉<br>
+            <span style="font-size: 0.9em;">Click "Show Certificate" to view and print your certificate</span>
+        </div>
+        
+        <!-- Quiz Content (initially hidden) -->
+        <div id="quizContent" style="display: none;">
+            <div class="instructions">
+                <strong>Instructions:</strong> For each function, select the correct derivative.<br>
+                <strong>Student:</strong> <span id="displayStudentName" style="font-weight: bold;"></span><br>
+                <strong>Mastery:</strong> You need 10/10 correct to achieve mastery and earn your certificate.
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            
+            <div class="score">Score: <span id="scoreDisplay">0</span>/10</div>
+            
+            <div class="completion-status" id="completionStatus">
+                Questions answered: <span id="answeredCount">0</span>/10
+            </div>
+            
+            <div id="quizContainer"></div>
+            
+            <div class="buttons">
+                <button id="checkBtn" onclick="checkAnswers()" disabled>Check Answers</button>
+                <button id="retryBtn" onclick="retryQuiz()">Try Same Questions Again</button>
+                <button id="newQuizBtn" onclick="generateNewQuiz()">New Set of Questions</button>
+                <button id="certificateBtn" onclick="showCertificate()" style="display: none; background: #ffd43b; color: #333;">Show Certificate</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="attemptCount">0</div>
+                    <div>Attempts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="bestScore">0</div>
+                    <div>Best Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="masteryCount">0</div>
+                    <div>Mastery Quizzes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION ==========
+        const QUESTION_COUNT = 10;
+        let currentQuiz = [];
+        let userAnswers = new Array(QUESTION_COUNT).fill(null);
+        let studentName = '';
+        let attempts = parseInt(localStorage.getItem('differentiationAttempts')) || 0;
+        let bestScore = parseInt(localStorage.getItem('differentiationBestScore')) || 0;
+        let masteryQuizzes = parseInt(localStorage.getItem('differentiationMasteryCount')) || 0;
+        
+        // ========== QUESTION GENERATORS ==========
+        const questionGenerators = [
+            // Type 1: y = ax^n (simple positive power)
+            () => {
+                const a = getRandomInt(2, 6);
+                const n = getRandomInt(2, 4);
+                const coeff = a * n;
+                const power = n - 1;
+                
+                const correctAnswer = power === 1 ? `${coeff}x` : `${coeff}x<sup>${power}</sup>`;
+                
+                // Generate distractors
+                const distractors = [
+                    power === 1 ? `${coeff}x<sup>${power}</sup>` : `${coeff}x`,
+                    `${a}x<sup>${power}</sup>`,
+                    `${coeff}x<sup>${n}</sup>`,
+                    `${a*n - 2}x<sup>${power}</sup>`
+                ];
+                
+                return {
+                    question: `y = ${a}x<sup>${n}</sup>`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `Multiply coefficient by power: ${a} × ${n} = ${coeff}, then reduce power by 1: ${n} → ${power}`
+                };
+            },
+            
+            // Type 2: y = constant
+            () => {
+                const k = getRandomInt(1, 12);
+                const correctAnswer = '0';
+                
+                const distractors = [
+                    `${k}`,
+                    '1',
+                    `${k}x`,
+                    `${k}x<sup>-1</sup>`
+                ];
+                
+                return {
+                    question: `y = ${k}`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: 'The derivative of any constant is always 0'
+                };
+            },
+            
+            // Type 3: y = a/x
+            () => {
+                const a = getRandomInt(2, 8);
+                const correctAnswer = `-${a}/x<sup>2</sup>`;
+                
+                const distractors = [
+                    `${a}/x<sup>2</sup>`,
+                    `-${a}/x`,
+                    `${a}x<sup>-2</sup>`,
+                    `-${a + 1}/x<sup>2</sup>`
+                ];
+                
+                return {
+                    question: `y = ${a}/x`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `${a}/x = ${a}x<sup>-1</sup> → derivative = -${a}x<sup>-2</sup> = -${a}/x<sup>2</sup>`
+                };
+            },
+            
+            // Type 4: y = a/x²
+            () => {
+                const a = getRandomInt(2, 6);
+                const correctAnswer = `-${2*a}/x<sup>3</sup>`;
+                
+                const distractors = [
+                    `${2*a}/x<sup>3</sup>`,
+                    `-${a}/x<sup>3</sup>`,
+                    `-${2*a}/x<sup>2</sup>`,
+                    `-${2*a + 2}/x<sup>3</sup>`
+                ];
+                
+                return {
+                    question: `y = ${a}/x<sup>2</sup>`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `${a}/x<sup>2</sup> = ${a}x<sup>-2</sup> → derivative = -${2*a}x<sup>-3</sup> = -${2*a}/x<sup>3</sup>`
+                };
+            },
+            
+            // Type 5: y = a√x
+            () => {
+                const a = getRandomInt(2, 8);
+                const coeff = a/2;
+                const correctAnswer = coeff % 1 === 0 ? 
+                    `${coeff}/√x` : 
+                    `<div class="fraction"><span class="numerator">${a}</span><span class="denominator">2√x</span></div>`;
+                
+                const distractors = [
+                    `${a}/√x`,
+                    `${coeff}√x`,
+                    `${a}x<sup>-½</sup>`,
+                    `${a/2}x<sup>-½</sup>`
+                ];
+                
+                return {
+                    question: `y = ${a}√x`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `√x = x<sup>½</sup> → derivative = (${a}/2)x<sup>-½</sup> = ${a}/(2√x)`
+                };
+            },
+            
+            // Type 6: Polynomial
+            () => {
+                const a = getRandomInt(2, 5);
+                const n = getRandomInt(2, 3);
+                const b = getRandomInt(2, 6);
+                const c = getRandomInt(1, 5);
+                const coeff = a * n;
+                const power = n - 1;
+                
+                const correctAnswer = power === 1 ? 
+                    `${coeff}x - ${b}` : 
+                    `${coeff}x<sup>${power}</sup> - ${b}`;
+                
+                const distractors = [
+                    `${coeff}x<sup>${power}</sup> - ${b} + ${c}`,
+                    `${a}x<sup>${power}</sup> - ${b}`,
+                    `${coeff}x<sup>${n}</sup> - ${b}`,
+                    `${coeff}x<sup>${power}</sup> + ${b}`
+                ];
+                
+                return {
+                    question: `y = ${a}x<sup>${n}</sup> - ${b}x + ${c}`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `Differentiate term by term: ${a}x<sup>${n}</sup> → ${coeff}x<sup>${power}</sup>, -${b}x → -${b}, ${c} → 0`
+                };
+            },
+            
+            // Type 7: y = x(x - k)
+            () => {
+                const k = getRandomInt(2, 6);
+                const correctAnswer = `2x - ${k}`;
+                
+                const distractors = [
+                    `x - ${k}`,
+                    `2x + ${k}`,
+                    `x<sup>2</sup> - ${k}`,
+                    `2x - ${k + 1}`
+                ];
+                
+                return {
+                    question: `y = x(x - ${k})`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `First expand: x<sup>2</sup> - ${k}x, then differentiate: 2x - ${k}`
+                };
+            },
+            
+            // Type 8: y = (x² + a)/x
+            () => {
+                const a = getRandomInt(2, 8);
+                const correctAnswer = `1 - ${a}/x<sup>2</sup>`;
+                
+                const distractors = [
+                    `2x - ${a}/x<sup>2</sup>`,
+                    `1 + ${a}/x<sup>2</sup>`,
+                    `x - ${a}/x<sup>2</sup>`,
+                    `1 - ${a}/x`
+                ];
+                
+                return {
+                    question: `y = (x<sup>2</sup> + ${a})/x`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `Simplify first: x + ${a}/x = x + ${a}x<sup>-1</sup>, then differentiate: 1 - ${a}x<sup>-2</sup> = 1 - ${a}/x<sup>2</sup>`
+                };
+            },
+            
+            // Type 9: y = a/x³
+            () => {
+                const a = getRandomInt(2, 6);
+                const correctAnswer = `-${3*a}/x<sup>4</sup>`;
+                
+                const distractors = [
+                    `${3*a}/x<sup>4</sup>`,
+                    `-${a}/x<sup>4</sup>`,
+                    `-${3*a}/x<sup>3</sup>`,
+                    `-${3*a - 2}/x<sup>4</sup>`
+                ];
+                
+                return {
+                    question: `y = ${a}/x<sup>3</sup>`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `${a}/x<sup>3</sup> = ${a}x<sup>-3</sup> → derivative = -${3*a}x<sup>-4</sup> = -${3*a}/x<sup>4</sup>`
+                };
+            },
+            
+            // Type 10: y = a∛x
+            () => {
+                const a = getRandomInt(2, 8);
+                const correctAnswer = `<div class="fraction"><span class="numerator">${a}</span><span class="denominator">3∛(x<sup>2</sup>)</span></div>`;
+                
+                const distractors = [
+                    `${a}/∛(x<sup>2</sup>)`,
+                    `<div class="fraction"><span class="numerator">${a}</span><span class="denominator">∛x</span></div>`,
+                    `${a}x<sup>-⅔</sup>`,
+                    `<div class="fraction"><span class="numerator">${a}</span><span class="denominator">2∛(x<sup>2</sup>)</span></div>`
+                ];
+                
+                return {
+                    question: `y = ${a}∛x`,
+                    correctAnswer: correctAnswer,
+                    options: shuffleArray([correctAnswer, ...distractors]),
+                    explanation: `∛x = x<sup>⅓</sup> → derivative = (${a}/3)x<sup>-⅔</sup> = ${a}/(3∛(x<sup>2</sup>))`
+                };
+            }
+        ];
+        
+        // ========== HELPER FUNCTIONS ==========
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+        
+        function formatDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return now.toLocaleDateString('en-GB', options);
+        }
+        
+        // ========== QUIZ FUNCTIONS ==========
+        function startQuiz() {
+            const nameInput = document.getElementById('studentName').value.trim();
+            if (!nameInput) {
+                alert('Please enter your name to begin the quiz.');
+                return;
+            }
+            
+            studentName = nameInput;
+            
+            // Store name for future use
+            localStorage.setItem('studentName', studentName);
+            
+            // Update display
+            document.getElementById('displayStudentName').textContent = studentName;
+            
+            // Show quiz, hide name entry
+            document.getElementById('nameEntry').style.display = 'none';
+            document.getElementById('quizContent').style.display = 'block';
+            
+            // Generate first quiz
+            generateNewQuiz();
+        }
+        
+        function generateNewQuiz() {
+            currentQuiz = [];
+            userAnswers = new Array(QUESTION_COUNT).fill(null);
+            const generators = [...questionGenerators];
+            shuffleArray(generators);
+            
+            for (let i = 0; i < QUESTION_COUNT; i++) {
+                currentQuiz.push(generators[i]());
+            }
+            
+            attempts++;
+            localStorage.setItem('differentiationAttempts', attempts);
+            updateStats();
+            renderQuiz();
+            resetUI();
+            updateCheckButton();
+        }
+        
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            
+            currentQuiz.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.id = `question${index}`;
+                
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    const letter = String.fromCharCode(65 + optIndex);
+                    optionsHTML += `
+                        <div class="option" onclick="selectOption(${index}, ${optIndex})">
+                            <input type="radio" id="q${index}opt${optIndex}" name="q${index}" value="${letter}">
+                            <label class="option-label" for="q${index}opt${optIndex}">
+                                <span class="math-display">${option}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">Question ${index + 1}</div>
+                        <div class="answer-status" id="status${index}"></div>
+                    </div>
+                    <div class="function">${q.question}</div>
+                    <div class="question-text">Find dy/dx:</div>
+                    <div class="options">${optionsHTML}</div>
+                    <div class="feedback correct-feedback" id="correct${index}" style="display: none;">
+                        ✓ Correct! ${q.explanation}
+                    </div>
+                    <div class="feedback incorrect-feedback" id="incorrect${index}" style="display: none;">
+                        ✗ Incorrect. ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+        
+        function selectOption(questionIndex, optionIndex) {
+            // Store the user's answer
+            userAnswers[questionIndex] = optionIndex;
+            
+            // Get the question div and all options
+            const questionDiv = document.getElementById(`question${questionIndex}`);
+            const options = questionDiv.querySelectorAll('.option');
+            
+            // Remove selected class from all options
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            if (options[optionIndex]) {
+                options[optionIndex].classList.add('selected');
+                // Also check the radio button
+                const radio = options[optionIndex].querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+            }
+            
+            // Update completion status and check button
+            updateCompletionStatus();
+            updateCheckButton();
+        }
+        
+        function updateCompletionStatus() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            document.getElementById('answeredCount').textContent = answered;
+            
+            const completionPercentage = (answered / QUESTION_COUNT) * 100;
+            document.getElementById('progressBar').style.width = `${completionPercentage}%`;
+            
+            return answered;
+        }
+        
+        function updateCheckButton() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const checkBtn = document.getElementById('checkBtn');
+            
+            if (answered === QUESTION_COUNT) {
+                checkBtn.disabled = false;
+                checkBtn.style.cursor = 'pointer';
+            } else {
+                checkBtn.disabled = true;
+                checkBtn.style.cursor = 'not-allowed';
+            }
+        }
+        
+        function checkAnswers() {
+            console.log("Checking answers...");
+            let score = 0;
+            
+            currentQuiz.forEach((q, index) => {
+                const userAnswerIndex = userAnswers[index];
+                const questionDiv = document.getElementById(`question${index}`);
+                const options = questionDiv.querySelectorAll('.option');
+                const statusEl = document.getElementById(`status${index}`);
+                const correctFeedback = document.getElementById(`correct${index}`);
+                const incorrectFeedback = document.getElementById(`incorrect${index}`);
+                
+                // Reset all option styles
+                options.forEach(opt => {
+                    opt.classList.remove('correct-option', 'incorrect-option');
+                });
+                
+                if (userAnswerIndex !== null) {
+                    const userSelected = options[userAnswerIndex];
+                    const isCorrect = q.options[userAnswerIndex] === q.correctAnswer;
+                    
+                    if (isCorrect) {
+                        score++;
+                        questionDiv.classList.remove('incorrect');
+                        questionDiv.classList.add('correct');
+                        userSelected.classList.add('correct-option');
+                        correctFeedback.style.display = 'block';
+                        incorrectFeedback.style.display = 'none';
+                        statusEl.textContent = '✓';
+                        statusEl.className = 'answer-status correct-status';
+                        statusEl.style.display = 'inline-block';
+                        console.log(`Question ${index + 1}: Correct`);
+                    } else {
+                        questionDiv.classList.remove('correct');
+                        questionDiv.classList.add('incorrect');
+                        userSelected.classList.add('incorrect-option');
+                        
+                        // Highlight correct answer
+                        const correctIndex = q.options.findIndex(opt => opt === q.correctAnswer);
+                        if (correctIndex !== -1 && options[correctIndex]) {
+                            options[correctIndex].classList.add('correct-option');
+                        }
+                        
+                        correctFeedback.style.display = 'none';
+                        incorrectFeedback.style.display = 'block';
+                        statusEl.textContent = '✗';
+                        statusEl.className = 'answer-status incorrect-status';
+                        statusEl.style.display = 'inline-block';
+                        console.log(`Question ${index + 1}: Incorrect`);
+                    }
+                } else {
+                    console.log(`Question ${index + 1}: Not answered`);
+                }
+            });
+            
+            // Update score display
+            document.getElementById('scoreDisplay').textContent = score;
+            console.log(`Total score: ${score}/${QUESTION_COUNT}`);
+            
+            // Update best score
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('differentiationBestScore', bestScore);
+                document.getElementById('bestScore').textContent = bestScore;
+            }
+            
+            // Check for mastery
+            if (score === QUESTION_COUNT) {
+                masteryQuizzes++;
+                localStorage.setItem('differentiationMasteryCount', masteryQuizzes);
+                showMasterySuccess();
+            } else {
+                document.getElementById('retryBtn').style.display = 'block';
+                document.getElementById('newQuizBtn').style.display = 'block';
+                document.getElementById('checkBtn').style.display = 'none';
+            }
+            
+            updateStats();
+        }
+        
+        function showMasterySuccess() {
+            document.getElementById('masteryBanner').style.display = 'block';
+            document.getElementById('retryBtn').style.display = 'none';
+            document.getElementById('newQuizBtn').style.display = 'block';
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('certificateBtn').style.display = 'block';
+            document.getElementById('masteryCount').textContent = masteryQuizzes;
+        }
+        
+        function showCertificate() {
+            // Update certificate with student name and date
+            document.getElementById('certificateName').textContent = studentName;
+            document.getElementById('certificateDate').textContent = formatDate();
+            
+            // Show certificate, hide quiz
+            document.getElementById('certificate').style.display = 'block';
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('masteryBanner').style.display = 'none';
+        }
+        
+        function printCertificate() {
+            window.print();
+        }
+        
+        function continueToNextQuiz() {
+            alert('Quiz 2: Gradients, Tangents & Normals is coming soon!');
+            // In the future, this would link to Quiz 2
+        }
+        
+        function retryQuiz() {
+            // Reset answers but keep same questions
+            userAnswers = new Array(QUESTION_COUNT).fill(null);
+            
+            // Reset all visual feedback
+            currentQuiz.forEach((_, index) => {
+                const questionDiv = document.getElementById(`question${index}`);
+                if (questionDiv) {
+                    questionDiv.classList.remove('correct', 'incorrect');
+                    
+                    const options = questionDiv.querySelectorAll('.option');
+                    options.forEach(opt => {
+                        opt.classList.remove('selected', 'correct-option', 'incorrect-option');
+                        const radio = opt.querySelector('input[type="radio"]');
+                        if (radio) radio.checked = false;
+                    });
+                    
+                    const correctFeedback = document.getElementById(`correct${index}`);
+                    const incorrectFeedback = document.getElementById(`incorrect${index}`);
+                    if (correctFeedback) correctFeedback.style.display = 'none';
+                    if (incorrectFeedback) incorrectFeedback.style.display = 'none';
+                    
+                    const statusEl = document.getElementById(`status${index}`);
+                    if (statusEl) {
+                        statusEl.style.display = 'none';
+                        statusEl.textContent = '';
+                    }
+                }
+            });
+            
+            resetUI();
+            updateCheckButton();
+        }
+        
+        function resetUI() {
+            document.getElementById('scoreDisplay').textContent = '0';
+            document.getElementById('answeredCount').textContent = '0';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('retryBtn').style.display = 'none';
+            document.getElementById('newQuizBtn').style.display = 'none';
+            document.getElementById('checkBtn').style.display = 'block';
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('certificateBtn').style.display = 'none';
+            document.getElementById('masteryBanner').style.display = 'none';
+            document.getElementById('certificate').style.display = 'none';
+        }
+        
+        function updateStats() {
+            document.getElementById('attemptCount').textContent = attempts;
+            document.getElementById('bestScore').textContent = bestScore;
+            document.getElementById('masteryCount').textContent = masteryQuizzes;
+        }
+        
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if name was previously entered
+            const savedName = localStorage.getItem('studentName');
+            if (savedName) {
+                document.getElementById('studentName').value = savedName;
+            }
+            
+            updateStats();
+            
+            // Add Enter key support for name input
+            document.getElementById('studentName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    startQuiz();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
