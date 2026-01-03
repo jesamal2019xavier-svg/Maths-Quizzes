@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Quiz: Expanding Brackets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .screen {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .input-group {
+            margin: 20px 0;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .student-info {
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+
+        .student-info strong {
+            color: #e74c3c;
+        }
+
+        .progress-info {
+            text-align: right;
+        }
+
+        .current-question {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s;
+        }
+
+        .question-box.active {
+            border-left-color: #2ecc71;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .question-number.active {
+            background: #2ecc71;
+        }
+
+        .question-text {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 60px;
+        }
+
+        .question-text sup {
+            font-size: 0.7em;
+            vertical-align: super;
+        }
+
+        .answer-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .answer-input input {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .answer-input input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+
+        .percentage {
+            font-size: 3em;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-table th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .results-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .results-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .correct-answer {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .incorrect-answer {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .correct-row {
+            background-color: rgba(39, 174, 96, 0.1) !important;
+        }
+
+        .incorrect-row {
+            background-color: rgba(231, 76, 60, 0.1) !important;
+        }
+
+        .certificate {
+            background: #fef9e7;
+            border: 20px solid #f1c40f;
+            padding: 40px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 30px auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .certificate h3 {
+            color: #d35400;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border: none;
+        }
+
+        .certificate h4 {
+            color: #e67e22;
+            font-size: 1.5em;
+            margin: 15px 0;
+        }
+
+        .student-name {
+            font-size: 2.5em;
+            color: #c0392b;
+            margin: 20px 0;
+            padding: 10px;
+            border-bottom: 3px solid #f1c40f;
+            border-top: 3px solid #f1c40f;
+        }
+
+        .instructions {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .instructions h4 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            color: #34495e;
+        }
+
+        .scores-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .scores-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .scores-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .teacher-section {
+            background: #fff8e1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .teacher-section h3 {
+            color: #d35400;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .results-table, .scores-table {
+                font-size: 0.9em;
+            }
+            
+            .results-table th,
+            .results-table td,
+            .scores-table th,
+            .scores-table td {
+                padding: 10px;
+            }
+            
+            .btn {
+                min-width: 120px;
+                padding: 10px 15px;
+            }
+        }
+
+        sup {
+            font-size: 0.7em;
+            vertical-align: super;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="screen">
+            <h1>🧮 Algebra Quiz</h1>
+            <h2>Expanding Brackets</h2>
+            
+            <div class="input-group">
+                <label for="studentName">Enter Your Name:</label>
+                <input type="text" id="studentName" placeholder="Your name here..." autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label for="difficulty">Select Difficulty Level:</label>
+                <select id="difficulty">
+                    <option value="easy">Grade 6-7 (Beginner)</option>
+                    <option value="medium">Grade 7-8 (Intermediate)</option>
+                    <option value="hard">Grade 8-9 (Advanced)</option>
+                </select>
+            </div>
+
+            <div class="instructions">
+                <h4>Instructions:</h4>
+                <ul>
+                    <li><strong>Type your answers without spaces</strong> (e.g., 2x+6 or x²+5x+6)</li>
+                    <li><strong>Use superscript for squares:</strong> x² instead of x^2</li>
+                    <li><strong>Press Enter</strong> after typing each answer to save and move to next question</li>
+                    <li><strong>Use arrow keys</strong> (← →) to navigate between questions</li>
+                    <li><strong>Submit all answers</strong> when you're finished</li>
+                    <li><strong>Score 100%</strong> to earn a Certificate of Mastery!</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="startQuiz()">
+                    Start Quiz
+                </button>
+                <button class="btn btn-secondary" onclick="showScores()">
+                    📊 View Scores
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="screen hidden">
+            <div class="quiz-header">
+                <div class="student-info">
+                    Student: <strong id="displayName"></strong> | 
+                    Level: <span id="displayLevel"></span>
+                </div>
+                <div class="progress-info">
+                    Question <span class="current-question" id="currentQuestionNum">1</span> of 10
+                </div>
+            </div>
+
+            <h2 id="quizTitle">Expanding Brackets Quiz</h2>
+
+            <div class="question-container">
+                <div id="questionDisplay">
+                    <!-- Questions will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>
+                    ← Previous
+                </button>
+                <button class="btn btn-success" id="nextBtn" onclick="nextQuestion()">
+                    Next Question →
+                </button>
+            </div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="submitQuiz()">
+                    📤 Submit All Answers
+                </button>
+                <button class="btn btn-secondary" onclick="quitQuiz()">
+                    ↩ Quit Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen hidden">
+            <h2>Quiz Results</h2>
+            
+            <div class="score-display">
+                Student: <strong id="resultsName"></strong><br>
+                Level: <span id="resultsLevel"></span>
+            </div>
+
+            <div class="score-display">
+                Final Score:
+                <div class="percentage" id="percentageScore">0%</div>
+                <div id="scoreText">0 out of 10 correct</div>
+            </div>
+
+            <h3>Detailed Results:</h3>
+            <table class="results-table" id="resultsTable">
+                <thead>
+                    <tr>
+                        <th width="10%">Q#</th>
+                        <th width="35%">Question</th>
+                        <th width="25%">Your Answer</th>
+                        <th width="30%">Correct Answer</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- Results will be inserted here -->
+                </tbody>
+            </table>
+
+            <div id="certificateSection" class="hidden">
+                <div class="certificate">
+                    <h3>🎉 Certificate of Mastery 🎉</h3>
+                    <h4>Expanding Brackets</h4>
+                    <h4 id="certificateLevel"></h4>
+                    <div class="student-name" id="certificateName"></div>
+                    <p>Awarded for perfect score (100%)</p>
+                    <p>Date: <span id="certificateDate"></span></p>
+                    <br>
+                    <p style="color: #7f8c8d; font-size: 0.9em;">
+                        You have demonstrated mastery in expanding algebraic brackets!
+                    </p>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-success" onclick="printCertificate()">
+                        🖨️ Print Certificate
+                    </button>
+                    <button class="btn btn-primary" onclick="saveScore()">
+                        💾 Save Score
+                    </button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="restartQuiz()">
+                    🔄 Try Again
+                </button>
+                <button class="btn btn-secondary" onclick="returnToMenu()">
+                    ↩ Back to Menu
+                </button>
+            </div>
+        </div>
+
+        <!-- Scores Screen -->
+        <div id="scoresScreen" class="screen hidden">
+            <h2>📊 Quiz Scores</h2>
+            
+            <div class="teacher-section">
+                <h3>Teacher View - All Student Scores</h3>
+                <p>This table shows all quiz attempts saved in this browser.</p>
+                <button class="btn btn-secondary" onclick="clearScores()" style="margin: 10px 0;">
+                    🗑️ Clear All Scores
+                </button>
+            </div>
+
+            <table class="scores-table" id="scoresTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student</th>
+                        <th>Level</th>
+                        <th>Score</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody id="scoresBody">
+                    <!-- Scores will be inserted here -->
+                </tbody>
+            </table>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="returnToMenu()">
+                    ↩ Back to Menu
+                </button>
+                <button class="btn btn-secondary" onclick="exportScores()">
+                    📥 Export Scores
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let studentName = "";
+        let difficulty = "";
+        let currentQuestionIndex = 0;
+        let questions = [];
+        let userAnswers = new Array(10).fill("");
+
+        // Convert to superscript
+        function toSuperscript(str) {
+            return str
+                .replace(/\^2/g, '²')
+                .replace(/\^3/g, '³')
+                .replace(/\^4/g, '⁴');
+        }
+
+        // Convert from superscript for answer checking
+        function fromSuperscript(str) {
+            return str
+                .replace(/²/g, '^2')
+                .replace(/³/g, '^3')
+                .replace(/⁴/g, '^4');
+        }
+
+        // Random number generator (avoid 1 for coefficients)
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Generate 10 questions avoiding trivial ones
+        function generateQuestions(diff) {
+            let qs = [];
+            
+            for (let i = 0; i < 10; i++) {
+                let a, b, c, d;
+                let question = "";
+                let answer = "";
+                
+                switch(diff) {
+                    case 'easy':
+                        // Grade 6-7: Simple brackets (avoid coefficient 1)
+                        do {
+                            a = randomInt(2, 5);
+                            b = randomInt(2, 10);
+                            c = randomInt(2, 5);
+                            d = randomInt(2, 10);
+                        } while (a === 1 || c === 1);
+                        
+                        if (i < 4) {
+                            // Single bracket: a(x + b)
+                            question = `${a}(x + ${b})`;
+                            answer = `${a}x+${a*b}`;
+                        } else if (i < 7) {
+                            // Single bracket with subtraction: a(x - b)
+                            question = `${a}(x - ${b})`;
+                            answer = `${a}x-${a*b}`;
+                        } else if (i < 9) {
+                            // x(x + b)
+                            question = `x(x + ${b})`;
+                            answer = `x^2+${b}x`;
+                        } else {
+                            // (x + a)(x + b)
+                            question = `(x + ${a})(x + ${b})`;
+                            answer = `x^2+${a+b}x+${a*b}`;
+                        }
+                        break;
+                        
+                    case 'medium':
+                        // Grade 7-8: Harder brackets
+                        do {
+                            a = randomInt(2, 6);
+                            b = randomInt(2, 8);
+                            c = randomInt(2, 6);
+                            d = randomInt(2, 8);
+                        } while (a === 1 || c === 1);
+                        
+                        if (i < 2) {
+                            // a(bx + c)
+                            question = `${a}(${b}x + ${c})`;
+                            answer = `${a*b}x+${a*c}`;
+                        } else if (i < 4) {
+                            // (ax + b)(x + c)
+                            question = `(${a}x + ${b})(x + ${c})`;
+                            answer = `${a}x^2+${a*c+b}x+${b*c}`;
+                        } else if (i < 6) {
+                            // (x + a)²
+                            question = `(x + ${a})²`;
+                            answer = `x^2+${2*a}x+${a*a}`;
+                        } else if (i < 8) {
+                            // (x + a)(x - a)
+                            question = `(x + ${a})(x - ${a})`;
+                            answer = `x^2-${a*a}`;
+                        } else {
+                            // a(x+b) + c(x+d)
+                            question = `${a}(x + ${b}) + ${c}(x + ${d})`;
+                            answer = `${a+c}x+${a*b+c*d}`;
+                        }
+                        break;
+                        
+                    case 'hard':
+                        // Grade 8-9: Advanced brackets
+                        do {
+                            a = randomInt(2, 8);
+                            b = randomInt(2, 8);
+                            c = randomInt(2, 8);
+                            d = randomInt(2, 8);
+                        } while (a === 1 || c === 1);
+                        
+                        if (i < 3) {
+                            // (ax + b)(cx + d)
+                            question = `(${a}x + ${b})(${c}x + ${d})`;
+                            answer = `${a*c}x^2+${a*d+b*c}x+${b*d}`;
+                        } else if (i < 5) {
+                            // (ax - b)²
+                            question = `(${a}x - ${b})²`;
+                            answer = `${a*a}x^2-${2*a*b}x+${b*b}`;
+                        } else if (i < 7) {
+                            // (ax + b)(ax - b)
+                            question = `(${a}x + ${b})(${a}x - ${b})`;
+                            answer = `${a*a}x^2-${b*b}`;
+                        } else if (i < 9) {
+                            // a(x+b)(x+c)
+                            question = `${a}(x + ${b})(x + ${c})`;
+                            answer = `${a}x^2+${a*(b+c)}x+${a*b*c}`;
+                        } else {
+                            // (x+a)² + (x+b)²
+                            question = `(x + ${a})² + (x + ${b})²`;
+                            answer = `2x^2+${2*(a+b)}x+${a*a+b*b}`;
+                        }
+                        break;
+                }
+                
+                qs.push({
+                    number: i + 1,
+                    question: toSuperscript(`Expand: ${question}`),
+                    answer: answer
+                });
+            }
+            
+            return qs;
+        }
+
+        // Load scores from localStorage
+        function loadScores() {
+            const scores = localStorage.getItem('bracketQuizScores');
+            return scores ? JSON.parse(scores) : [];
+        }
+
+        // Save score to localStorage
+        function saveScoreToStorage(name, level, score, percentage) {
+            const scores = loadScores();
+            scores.push({
+                date: new Date().toLocaleString(),
+                name: name,
+                level: level,
+                score: score,
+                percentage: percentage
+            });
+            localStorage.setItem('bracketQuizScores', JSON.stringify(scores));
+        }
+
+        // Clear all scores
+        function clearScores() {
+            if (confirm("Are you sure you want to clear ALL saved scores?")) {
+                localStorage.removeItem('bracketQuizScores');
+                showScores();
+            }
+        }
+
+        // Display scores
+        function showScores() {
+            const scores = loadScores();
+            const scoresBody = document.getElementById('scoresBody');
+            scoresBody.innerHTML = "";
+            
+            if (scores.length === 0) {
+                scoresBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 30px; color: #7f8c8d;">
+                            No scores saved yet. Complete a quiz to see scores here.
+                        </td>
+                    </tr>
+                `;
+            } else {
+                scores.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(score => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${score.date}</td>
+                        <td><strong>${score.name}</strong></td>
+                        <td>${score.level}</td>
+                        <td>${score.score}/10</td>
+                        <td>
+                            <span style="color: ${score.percentage === 100 ? '#27ae60' : score.percentage >= 70 ? '#3498db' : '#e74c3c'}; font-weight: bold;">
+                                ${score.percentage}%
+                            </span>
+                        </td>
+                    `;
+                    scoresBody.appendChild(row);
+                });
+            }
+            
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('scoresScreen').classList.remove('hidden');
+        }
+
+        function startQuiz() {
+            studentName = document.getElementById('studentName').value.trim();
+            difficulty = document.getElementById('difficulty').value;
+            
+            if (!studentName) {
+                alert("Please enter your name!");
+                return;
+            }
+            
+            currentQuestionIndex = 0;
+            userAnswers = new Array(10).fill("");
+            
+            // Generate questions
+            questions = generateQuestions(difficulty);
+            
+            // Update display
+            document.getElementById('displayName').textContent = studentName;
+            
+            let levelName = "";
+            if (difficulty === 'easy') levelName = "Grade 6-7 (Beginner)";
+            else if (difficulty === 'medium') levelName = "Grade 7-8 (Intermediate)";
+            else levelName = "Grade 8-9 (Advanced)";
+            
+            document.getElementById('displayLevel').textContent = levelName;
+            document.getElementById('quizTitle').textContent = `Expanding Brackets - ${levelName}`;
+            
+            // Show quiz screen
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('scoresScreen').classList.add('hidden');
+            
+            // Display all questions
+            displayAllQuestions();
+        }
+
+        function displayAllQuestions() {
+            const container = document.getElementById('questionDisplay');
+            container.innerHTML = "";
+            
+            questions.forEach((q, index) => {
+                const isActive = index === currentQuestionIndex;
+                const questionBox = document.createElement('div');
+                questionBox.className = `question-box ${isActive ? 'active' : ''}`;
+                questionBox.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number ${isActive ? 'active' : ''}">${q.number}</div>
+                    </div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="answer-input">
+                        <input type="text" 
+                               id="answer${q.number}" 
+                               placeholder="Type answer then press Enter..." 
+                               value="${userAnswers[index] || ''}"
+                               oninput="updateAnswer(${index}, this.value)"
+                               onkeypress="if(event.key=='Enter') { saveAnswer(${index}); nextQuestion(); }">
+                    </div>
+                `;
+                container.appendChild(questionBox);
+            });
+            
+            updateNavigation();
+            document.getElementById(`answer${currentQuestionIndex + 1}`).focus();
+        }
+
+        function updateAnswer(index, value) {
+            userAnswers[index] = fromSuperscript(value.trim().replace(/\s+/g, ''));
+        }
+
+        function saveAnswer(index) {
+            const input = document.getElementById(`answer${index + 1}`);
+            if (input) {
+                userAnswers[index] = fromSuperscript(input.value.trim().replace(/\s+/g, ''));
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayAllQuestions();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < 9) {
+                // Save current answer before moving
+                saveAnswer(currentQuestionIndex);
+                
+                currentQuestionIndex++;
+                displayAllQuestions();
+            }
+        }
+
+        function updateNavigation() {
+            document.getElementById('currentQuestionNum').textContent = currentQuestionIndex + 1;
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === 9;
+            
+            document.getElementById('nextBtn').textContent = 
+                currentQuestionIndex === 9 ? "Last Question" : "Next Question →";
+        }
+
+        function submitQuiz() {
+            // Save any unsaved answer
+            saveAnswer(currentQuestionIndex);
+            
+            // Check for unanswered questions
+            const unanswered = userAnswers.filter(answer => !answer).length;
+            if (unanswered > 0) {
+                if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) {
+                    return;
+                }
+            }
+            
+            showResults();
+        }
+
+        function showResults() {
+            let correctCount = 0;
+            const resultsBody = document.getElementById('resultsBody');
+            resultsBody.innerHTML = "";
+            
+            // Calculate score
+            questions.forEach((q, index) => {
+                const userAnswer = userAnswers[index] || "(Not answered)";
+                const isCorrect = userAnswer === q.answer;
+                
+                if (isCorrect) correctCount++;
+                
+                // Add row to results table
+                const row = document.createElement('tr');
+                row.className = isCorrect ? 'correct-row' : 'incorrect-row';
+                
+                row.innerHTML = `
+                    <td>${q.number}</td>
+                    <td>${q.question}</td>
+                    <td class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">
+                        ${toSuperscript(userAnswer)}
+                    </td>
+                    <td>
+                        ${isCorrect ? 
+                            '<span class="correct-answer">✓ Correct</span>' : 
+                            `<span class="correct-answer">${toSuperscript(q.answer)}</span>`
+                        }
+                    </td>
+                `;
+                
+                resultsBody.appendChild(row);
+            });
+            
+            // Calculate percentage
+            const percentage = Math.round((correctCount / 10) * 100);
+            
+            // Update results display
+            document.getElementById('resultsName').textContent = studentName;
+            
+            let levelName = "";
+            if (difficulty === 'easy') levelName = "Grade 6-7 (Beginner)";
+            else if (difficulty === 'medium') levelName = "Grade 7-8 (Intermediate)";
+            else levelName = "Grade 8-9 (Advanced)";
+            
+            document.getElementById('resultsLevel').textContent = levelName;
+            document.getElementById('percentageScore').textContent = `${percentage}%`;
+            document.getElementById('scoreText').textContent = `${correctCount} out of 10 correct`;
+            
+            // Show certificate if perfect score
+            const certificateSection = document.getElementById('certificateSection');
+            if (percentage === 100) {
+                certificateSection.classList.remove('hidden');
+                
+                document.getElementById('certificateName').textContent = studentName;
+                document.getElementById('certificateLevel').textContent = levelName;
+                
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                document.getElementById('certificateDate').textContent = dateStr;
+            } else {
+                certificateSection.classList.add('hidden');
+            }
+            
+            // Show results screen
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+        }
+
+        function saveScore() {
+            const percentage = parseInt(document.getElementById('percentageScore').textContent);
+            const scoreText = document.getElementById('scoreText').textContent;
+            const score = parseInt(scoreText.match(/\d+/)[0]);
+            
+            saveScoreToStorage(studentName, difficulty, score, percentage);
+            alert("Score saved! Teacher can view all scores from the main menu.");
+        }
+
+        function restartQuiz() {
+            // Generate new questions
+            questions = generateQuestions(difficulty);
+            currentQuestionIndex = 0;
+            userAnswers = new Array(10).fill("");
+            
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            displayAllQuestions();
+        }
+
+        function quitQuiz() {
+            if (confirm("Are you sure you want to quit? All your answers will be lost.")) {
+                returnToMenu();
+            }
+        }
+
+        function returnToMenu() {
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('scoresScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            
+            // Clear inputs
+            document.getElementById('studentName').value = "";
+            document.getElementById('studentName').focus();
+        }
+
+        function printCertificate() {
+            const certificate = document.querySelector('.certificate');
+            const originalContents = document.body.innerHTML;
+            
+            document.body.innerHTML = certificate.outerHTML;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+
+        function exportScores() {
+            const scores = loadScores();
+            if (scores.length === 0) {
+                alert("No scores to export!");
+                return;
+            }
+            
+            let csv = "Date,Student Name,Level,Score,Percentage\n";
+            scores.forEach(score => {
+                csv += `"${score.date}","${score.name}","${score.level}",${score.score},${score.percentage}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `algebra_quiz_scores_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentQuestionIndex > 0) {
+                prevQuestion();
+            } else if (e.key === 'ArrowRight' && currentQuestionIndex < 9) {
+                nextQuestion();
+            } else if (e.ctrlKey && e.key === 'Enter') {
+                submitQuiz();
+            }
+        });
+
+        // Focus on name input when page loads
+        window.onload = function() {
+            document.getElementById('studentName').focus();
+        };
+
+        // Show scores button on welcome screen
+        function showScores() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('scoresScreen').classList.remove('hidden');
+            showScores();
+        }
+    </script>
+</body>
+</html>
