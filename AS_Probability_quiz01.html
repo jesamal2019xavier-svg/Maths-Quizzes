@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastery Quiz 1: Foundational Probability</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .question {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        input[type="text"] {
+            width: 180px;
+            padding: 10px 12px;
+            margin: 5px 10px 5px 0;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .small-note { 
+            font-size: 0.9em; 
+            color: #7f8c8d; 
+            font-style: italic; 
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 15px 10px 15px 0;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #27ae60; }
+        #resetBtn {
+            background-color: #e67e22;
+        }
+        #resetBtn:hover {
+            background-color: #d35400;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .mastery {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+            font-size: 1.3em;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .var {
+            font-weight: bold;
+            color: #e74c3c;
+            background-color: #fdedec;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .instructions {
+            background-color: #d6eaf8;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        .question-number {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🎯 Mastery Quiz 1: Foundational Probability</h1>
+        <div class="instructions">
+            <p><strong>Objective:</strong> Score 100% on all parts to demonstrate mastery. You may attempt this quiz as many times as needed. Numbers change each time.</p>
+            <p><strong>Format:</strong> Enter answers as simplified fractions (e.g., <code>1/4</code>) or decimals to 3 significant figures (e.g., <code>0.250</code>).</p>
+            <p><strong>Topics:</strong> Sample spaces, equally likely outcomes, product of dice, coin tosses.</p>
+        </div>
+
+        <!-- Question 1 (Original Q1) -->
+        <div class="question">
+            <div class="question-number">Question 1 (Spinner Sums)</div>
+            <p>Two fair spinners are spun together. One has <span class="var" id="m">5</span> sectors numbered 1 to <span id="mEnd">5</span>. The other has <span class="var" id="n">5</span> sectors numbered 1 to <span id="nEnd">5</span>. The sum of the two numbers is recorded.</p>
+            <p>Find the probability that the sum is:</p>
+            <p>a) exactly <span class="var" id="targetSum">8</span>.
+                <br><label for="ans1a">Answer: <input type="text" id="ans1a" placeholder="e.g., 1/4"></label>
+            </p>
+            <p>b) more than <span class="var" id="targetSum2">8</span>.
+                <br><label for="ans1b">Answer: <input type="text" id="ans1b" placeholder="e.g., 0.375"></label>
+            </p>
+            <div class="small-note">Hint: There are <span id="totalOutcomes1">25</span> equally likely outcomes. Draw a sample space diagram.</div>
+        </div>
+
+        <!-- Question 2 (Original Q3) -->
+        <div class="question">
+            <div class="question-number">Question 2 (Coin Tosses)</div>
+            <p>Two fair coins are tossed. Find the probability that:</p>
+            <p>a) Both coins show the same outcome (both heads or both tails).
+                <br><label for="ans2a">Answer: <input type="text" id="ans2a" placeholder="e.g., 1/2"></label>
+            </p>
+            <p>b) At least one coin shows heads.
+                <br><label for="ans2b">Answer: <input type="text" id="ans2b"></label>
+            </p>
+            <p>c) The coins show different outcomes.
+                <br><label for="ans2c">Answer: <input type="text" id="ans2c"></label>
+            </p>
+            <div class="small-note">Sample space: {HH, HT, TH, TT} - all equally likely.</div>
+        </div>
+
+        <!-- Question 3 (Original Q4) -->
+        <div class="question">
+            <div class="question-number">Question 3 (Dice Products)</div>
+            <p>Two standard six-sided dice are thrown and their <strong>product</strong> is recorded.</p>
+            <p>Find the probability that the product is:</p>
+            <p>a) exactly <span class="var" id="targetProduct">12</span>.
+                <br><label for="ans3a">Answer: <input type="text" id="ans3a"></label>
+            </p>
+            <p>b) less than <span class="var" id="targetLessThan">5</span>.
+                <br><label for="ans3b">Answer: <input type="text" id="ans3b"></label>
+            </p>
+            <p>c) a multiple of <span class="var" id="targetMultiple">3</span>.
+                <br><label for="ans3c">Answer: <input type="text" id="ans3c"></label>
+            </p>
+            <p>d) a prime number.
+                <br><label for="ans3d">Answer: <input type="text" id="ans3d"></label>
+            </p>
+            <div class="small-note">There are 36 equally likely outcomes when two dice are thrown. Prime products possible: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31.</div>
+        </div>
+
+        <!-- Buttons -->
+        <div>
+            <button id="submitBtn">📥 Submit All Answers</button>
+            <button id="resetBtn">🔄 Generate New Quiz</button>
+        </div>
+
+        <!-- Results Area -->
+        <div id="resultBox" class="result">
+            <!-- Results will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==================== QUIZ STATE & RANDOMIZATION ====================
+        let quizVars = {};
+
+        function generateNewQuiz() {
+            // Q1 Variables (Spinners) - from your guidelines
+            quizVars.m = Math.floor(Math.random() * 2) + 5; // 5 or 6
+            quizVars.n = Math.floor(Math.random() * 2) + 5; // 5 or 6
+            const maxSum = quizVars.m + quizVars.n;
+            quizVars.targetSum = Math.floor(Math.random() * (maxSum - 8 + 1)) + 8; // 8 to (maxSum-1)
+
+            // Q3 Variables (Dice) - from your guidelines
+            // Sensible possible dice products for part (a)
+            const goodProducts = [6, 8, 12, 15, 16, 18, 20, 24, 25, 30, 36];
+            quizVars.targetProduct = goodProducts[Math.floor(Math.random() * goodProducts.length)];
+            quizVars.targetLessThan = Math.floor(Math.random() * 9) + 2; // 2 to 10
+            quizVars.targetMultiple = Math.floor(Math.random() * 4) + 2; // 2 to 5
+
+            // Update the HTML display for Q1 and Q3
+            document.getElementById('m').textContent = quizVars.m;
+            document.getElementById('mEnd').textContent = quizVars.m;
+            document.getElementById('n').textContent = quizVars.n;
+            document.getElementById('nEnd').textContent = quizVars.n;
+            document.getElementById('targetSum').textContent = quizVars.targetSum;
+            document.getElementById('targetSum2').textContent = quizVars.targetSum;
+            document.getElementById('totalOutcomes1').textContent = quizVars.m * quizVars.n;
+
+            document.getElementById('targetProduct').textContent = quizVars.targetProduct;
+            document.getElementById('targetLessThan').textContent = quizVars.targetLessThan;
+            document.getElementById('targetMultiple').textContent = quizVars.targetMultiple;
+
+            // Clear previous answers and results
+            document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('resultBox').className = 'result';
+        }
+
+        // ==================== ANSWER CALCULATION FUNCTIONS ====================
+        // Q1 Calculations (Spinners)
+        function calculateQ1a() {
+            let count = 0;
+            for (let i = 1; i <= quizVars.m; i++) {
+                for (let j = 1; j <= quizVars.n; j++) {
+                    if (i + j === quizVars.targetSum) count++;
+                }
+            }
+            return count / (quizVars.m * quizVars.n);
+        }
+
+        function calculateQ1b() {
+            let count = 0;
+            for (let i = 1; i <= quizVars.m; i++) {
+                for (let j = 1; j <= quizVars.n; j++) {
+                    if (i + j > quizVars.targetSum) count++;
+                }
+            }
+            return count / (quizVars.m * quizVars.n);
+        }
+
+        // Q2 Calculations (Coins) - Fixed answers
+        function calculateQ2a() { return 0.5; } // {HH, TT} out of 4
+        function calculateQ2b() { return 0.75; } // {HH, HT, TH} out of 4
+        function calculateQ2c() { return 0.5; } // {HT, TH} out of 4
+
+        // Q3 Calculations (Dice Products)
+        function calculateQ3a() {
+            let count = 0;
+            for (let i = 1; i <= 6; i++) {
+                for (let j = 1; j <= 6; j++) {
+                    if (i * j === quizVars.targetProduct) count++;
+                }
+            }
+            return count / 36;
+        }
+
+        function calculateQ3b() {
+            let count = 0;
+            for (let i = 1; i <= 6; i++) {
+                for (let j = 1; j <= 6; j++) {
+                    if (i * j < quizVars.targetLessThan) count++;
+                }
+            }
+            return count / 36;
+        }
+
+        function calculateQ3c() {
+            let count = 0;
+            for (let i = 1; i <= 6; i++) {
+                for (let j = 1; j <= 6; j++) {
+                    if ((i * j) % quizVars.targetMultiple === 0) count++;
+                }
+            }
+            return count / 36;
+        }
+
+        function calculateQ3d() {
+            const primes = new Set([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]);
+            let count = 0;
+            for (let i = 1; i <= 6; i++) {
+                for (let j = 1; j <= 6; j++) {
+                    if (primes.has(i * j)) count++;
+                }
+            }
+            return count / 36; // Answer is 15/36 = 5/12
+        }
+
+        // ==================== GRADING & DISPLAY ====================
+        function parseAnswer(inputStr) {
+            inputStr = inputStr.trim();
+            if (inputStr.includes('/')) {
+                const parts = inputStr.split('/').map(Number);
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) {
+                    return parts[0] / parts[1];
+                }
+            }
+            const decimal = parseFloat(inputStr);
+            return isNaN(decimal) ? null : decimal;
+        }
+
+        function checkAnswer(userVal, correctVal) {
+            if (userVal === null) return false;
+            return Math.abs(userVal - correctVal) < 0.0001;
+        }
+
+        function formatAnswer(val) {
+            const tol = 0.0001;
+            const commonFractions = [
+                [1/2, '1/2'], [1/3, '1/3'], [2/3, '2/3'], 
+                [1/4, '1/4'], [3/4, '3/4'], [1/5, '1/5'],
+                [2/5, '2/5'], [3/5, '3/5'], [4/5, '4/5'],
+                [1/6, '1/6'], [5/6, '5/6'], [1/8, '1/8'],
+                [3/8, '3/8'], [5/8, '5/8'], [7/8, '7/8']
+            ];
+            
+            for (let [dec, frac] of commonFractions) {
+                if (Math.abs(val - dec) < tol) return frac;
+            }
+            
+            // Special case for 15/36 = 5/12
+            if (Math.abs(val - 5/12) < tol) return '5/12';
+            if (Math.abs(val - 15/36) < tol) return '5/12';
+            
+            return val.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+        }
+
+        function submitQuiz() {
+            const answers = [
+                { user: parseAnswer(document.getElementById('ans1a').value), correct: calculateQ1a(), part: '1a' },
+                { user: parseAnswer(document.getElementById('ans1b').value), correct: calculateQ1b(), part: '1b' },
+                { user: parseAnswer(document.getElementById('ans2a').value), correct: calculateQ2a(), part: '2a' },
+                { user: parseAnswer(document.getElementById('ans2b').value), correct: calculateQ2b(), part: '2b' },
+                { user: parseAnswer(document.getElementById('ans2c').value), correct: calculateQ2c(), part: '2c' },
+                { user: parseAnswer(document.getElementById('ans3a').value), correct: calculateQ3a(), part: '3a' },
+                { user: parseAnswer(document.getElementById('ans3b').value), correct: calculateQ3b(), part: '3b' },
+                { user: parseAnswer(document.getElementById('ans3c').value), correct: calculateQ3c(), part: '3c' },
+                { user: parseAnswer(document.getElementById('ans3d').value), correct: calculateQ3d(), part: '3d' }
+            ];
+
+            let allCorrect = true;
+            let resultHTML = '<h3>Detailed Results:</h3><ul>';
+            answers.forEach(ans => {
+                const isCorrect = checkAnswer(ans.user, ans.correct);
+                if (!isCorrect) allCorrect = false;
+                resultHTML += `<li>Question ${ans.part}: ${isCorrect ? '✅ Correct' : '❌ Incorrect'}. Correct answer: <strong>${formatAnswer(ans.correct)}</strong></li>`;
+            });
+            resultHTML += '</ul>';
+
+            const resultBox = document.getElementById('resultBox');
+            if (allCorrect) {
+                resultHTML = `
+                    <div class="mastery">
+                        <h2>🎉 MASTERY ACHIEVED! (100%)</h2>
+                        <p>You have successfully demonstrated mastery of Foundational Probability concepts.</p>
+                        <p><strong>Certificate of Mastery:</strong> QUIZ1-FOUND-PROB-${Date.now().toString(36).toUpperCase()}</p>
+                        <p>You may proceed to Quiz 2: Probability from Tables & Histograms.</p>
+                    </div>
+                `;
+                resultBox.className = 'result mastery';
+            } else {
+                resultHTML = `<div class="fail"><h3>Not Yet Mastered</h3>${resultHTML}<p>❌ Score < 100%. Please review and try again (use "Generate New Quiz" for new numbers).</p></div>`;
+                resultBox.className = 'result fail';
+            }
+            resultBox.innerHTML = resultHTML;
+            resultBox.style.display = 'block';
+            
+            // Scroll to results
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        document.getElementById('submitBtn').addEventListener('click', submitQuiz);
+        document.getElementById('resetBtn').addEventListener('click', generateNewQuiz);
+
+        // Initialize the quiz on page load
+        generateNewQuiz();
+    </script>
+</body>
+</html>
