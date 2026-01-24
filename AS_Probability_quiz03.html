@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastery Quiz 3: Venn Diagrams & Set Probability</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            font-size: 16px;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        h1 { font-size: 28px; }
+        h2 { font-size: 22px; }
+        .question {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+        label {
+            display: block;
+            margin: 12px 0;
+            font-weight: 500;
+            font-size: 17px;
+        }
+        input[type="text"] {
+            width: 200px;
+            padding: 12px 14px;
+            margin: 8px 10px 8px 0;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+        .small-note { 
+            font-size: 16px;
+            color: #7f8c8d; 
+            font-style: italic; 
+            margin-top: 18px;
+            padding: 12px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 18px 12px 18px 0;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #c0392b; }
+        #resetBtn {
+            background-color: #3498db;
+        }
+        #resetBtn:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .mastery {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+            font-size: 20px;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .var {
+            font-weight: bold;
+            color: #e74c3c;
+            background-color: #fdedec;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 18px;
+        }
+        .instructions {
+            background-color: #fdeaea;
+            padding: 22px;
+            border-radius: 5px;
+            margin-bottom: 28px;
+            border-left: 4px solid #e74c3c;
+            font-size: 17px;
+        }
+        .question-number {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 18px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .student-info {
+            background-color: #fdeaea;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .student-info label {
+            margin: 0;
+            font-weight: bold;
+        }
+        .student-info input {
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        .venn-container {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+        canvas {
+            background-color: #ffffff;
+            border: 2px solid #2c3e50; /* Darker border for universal set */
+            border-radius: 8px;
+        }
+        .venn-key {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+        .key-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .key-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+        .set-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        .set-table th, .set-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .set-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🎯 Mastery Quiz 3: Venn Diagrams & Set Probability</h1>
+        
+        <div class="student-info">
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" placeholder="Enter your full name" value="">
+        </div>
+        
+        <div class="instructions">
+            <p><strong>Objective:</strong> Score 100% on all parts to demonstrate mastery. Numbers change each attempt.</p>
+            <p><strong>Format:</strong> Enter answers as simplified fractions, decimals to 3 s.f., or exact values as required.</p>
+        </div>
+
+        <!-- Question 7 (Original Q7) -->
+        <div class="question">
+            <div class="question-number">Question 7: Basic Venn Diagram</div>
+            <p>In a class of <span class="var" id="totalStudents">30</span> students:</p>
+            <ul>
+                <li><span class="var" id="choirTotal">7</span> are in the choir</li>
+                <li><span class="var" id="bandTotal">5</span> are in the school band</li>
+                <li><span class="var" id="both">2</span> are in both the choir and the band</li>
+            </ul>
+            
+            <div class="venn-container">
+                <canvas id="vennCanvas1" width="500" height="300"></canvas>
+            </div>
+            
+            <p>A student is chosen at random from the class. Find the probability that:</p>
+            <p>a) The student is not in the band.
+                <br><label for="ans7a">Answer: <input type="text" id="ans7a" placeholder="e.g., 5/6"></label>
+            </p>
+            <p>b) The student is not in the choir or the band.
+                <br><label for="ans7b">Answer: <input type="text" id="ans7b" placeholder="e.g., 0.667"></label>
+            </p>
+        </div>
+
+        <!-- Question 8 (Original Q8) -->
+        <div class="question">
+            <div class="question-number">Question 8: Three-Set Venn Survey</div>
+            <p>A vet surveys <span class="var" id="totalClients">100</span> clients. She finds that:</p>
+            
+            <table class="set-table">
+                <tr>
+                    <th>Own Dogs</th>
+                    <th>Own Cats</th>
+                    <th>Own Fish</th>
+                </tr>
+                <tr>
+                    <td><span id="dogsOnly">?</span> only</td>
+                    <td><span id="catsOnly">?</span> only</td>
+                    <td><span id="fishOnly">?</span> only</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><span id="allThree">7</span> own all three</td>
+                </tr>
+                <tr>
+                    <td><span id="dogsCats">?</span> own Dogs & Cats</td>
+                    <td><span id="dogsFish">?</span> own Dogs & Fish</td>
+                    <td><span id="catsFish">?</span> own Cats & Fish</td>
+                </tr>
+            </table>
+            
+            <div class="venn-container">
+                <canvas id="vennCanvas2" width="550" height="350"></canvas>
+            </div>
+            
+            <p>A client is chosen at random. Find the probability that:</p>
+            <p>a) The client owns dogs only.
+                <br><label for="ans8a">Answer: <input type="text" id="ans8a"></label>
+            </p>
+            <p>b) The client does not own fish.
+                <br><label for="ans8b">Answer: <input type="text" id="ans8b"></label>
+            </p>
+            <p>c) The client does not own dogs, cats, or fish.
+                <br><label for="ans8c">Answer: <input type="text" id="ans8c"></label>
+            </p>
+        </div>
+
+        <!-- Question 9 (Original Q9) -->
+        <div class="question">
+            <div class="question-number">Question 9: Chain Venn Diagram with Algebra</div>
+            <p>The Venn diagram shows the probabilities that students study certain subjects.</p>
+            <p><strong>M</strong> = Mathematics, <strong>P</strong> = Physics, <strong>H</strong> = History</p>
+            <p>Given that <strong>P(M) = P(P)</strong>, find the values of <em>p</em> and <em>q</em>.</p>
+            
+            <div class="venn-container">
+                <canvas id="vennCanvas3" width="600" height="350"></canvas>
+            </div>
+            
+            <p>a) Value of <em>p</em>:
+                <br><label for="ans9a">Answer: <input type="text" id="ans9a" placeholder="e.g., 0.15"></label>
+            </p>
+            <p>b) Value of <em>q</em>:
+                <br><label for="ans9b">Answer: <input type="text" id="ans9b"></label>
+            </p>
+            <div class="small-note">Enter answers as exact decimals or fractions.</div>
+        </div>
+
+        <!-- Buttons -->
+        <div>
+            <button id="submitBtn">📥 Submit All Answers</button>
+            <button id="resetBtn">🔄 Generate New Quiz</button>
+        </div>
+
+        <!-- Results Area -->
+        <div id="resultBox" class="result">
+            <!-- Results will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==================== QUIZ STATE & RANDOMIZATION ====================
+        let quizVars = {};
+
+        function generateNewQuiz() {
+            // Clear previous results
+            document.getElementById('resultBox').style.display = 'none';
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                if (input.id !== 'studentName') input.value = '';
+            });
+            
+            // ===== QUESTION 7: Basic Venn (Original Q7) =====
+            quizVars.q7_n = Math.floor(Math.random() * 11) + 25; // 25 to 35
+            quizVars.q7_a = Math.floor(Math.random() * 7) + 2; // 2 to 8
+            quizVars.q7_b = Math.floor(Math.random() * (10 - quizVars.q7_a)) + (quizVars.q7_a + 1); // a < b < 10
+            quizVars.q7_c = Math.floor(Math.random() * (15 - quizVars.q7_a)) + (quizVars.q7_a + 1); // a < c < 15
+            
+            // ===== QUESTION 8: Three-Set Survey (Original Q8) =====
+            quizVars.q8_N = Math.floor(Math.random() * 5) * 5 + 100; // 100, 105, 110, 115, 120
+            
+            quizVars.q8_a = Math.floor(Math.random() * 6) + 7; // 7 to 12
+            quizVars.q8_b = Math.floor(Math.random() * 8) + 5; // 5 to 12
+            quizVars.q8_c = Math.floor(Math.random() * 8) + 5; // 5 to 12
+            quizVars.q8_d = Math.floor(Math.random() * 8) + 5; // 5 to 12
+            quizVars.q8_e = Math.floor(Math.random() * 16) + 5; // 5 to 20
+            quizVars.q8_f = Math.floor(Math.random() * 16) + 5; // 5 to 20
+            quizVars.q8_g = Math.floor(Math.random() * 16) + 5; // 5 to 20
+            
+            // Calculate totals
+            quizVars.q8_D = quizVars.q8_a + quizVars.q8_b + quizVars.q8_c + quizVars.q8_e;
+            quizVars.q8_C = quizVars.q8_a + quizVars.q8_b + quizVars.q8_d + quizVars.q8_f;
+            quizVars.q8_F = quizVars.q8_a + quizVars.q8_c + quizVars.q8_d + quizVars.q8_g;
+            quizVars.q8_none = quizVars.q8_N - (quizVars.q8_a + quizVars.q8_b + quizVars.q8_c + quizVars.q8_d + 
+                                               quizVars.q8_e + quizVars.q8_f + quizVars.q8_g);
+            
+            // ===== QUESTION 9: Chain Venn (Original Q9) =====
+            quizVars.q9_a = (Math.floor(Math.random() * 11) + 15) / 100; // 0.15 to 0.25
+            quizVars.q9_b = (Math.floor(Math.random() * 10) + 5) / 100;  // 0.05 to 0.14
+            quizVars.q9_c = (Math.floor(Math.random() * 16) + 10) / 100; // 0.10 to 0.25
+            quizVars.q9_d = (Math.floor(Math.random() * 6) + 10) / 100;  // 0.10 to 0.15
+            
+            // Calculate p and q
+            quizVars.q9_q = quizVars.q9_a - quizVars.q9_b;
+            quizVars.q9_p = 1 - (2 * quizVars.q9_a + quizVars.q9_c + quizVars.q9_d);
+            
+            // Update HTML Display
+            updateDisplay();
+            
+            // Draw all Venn diagrams
+            drawVenn1();
+            drawVenn2();
+            drawVenn3();
+        }
+
+        function updateDisplay() {
+            // Q7 Display
+            document.getElementById('totalStudents').textContent = quizVars.q7_n;
+            document.getElementById('choirTotal').textContent = quizVars.q7_c;
+            document.getElementById('bandTotal').textContent = quizVars.q7_b;
+            document.getElementById('both').textContent = quizVars.q7_a;
+            
+            // Q8 Display - Removed (D ∩ C) etc as requested
+            document.getElementById('totalClients').textContent = quizVars.q8_N;
+            document.getElementById('dogsOnly').textContent = quizVars.q8_e;
+            document.getElementById('catsOnly').textContent = quizVars.q8_f;
+            document.getElementById('fishOnly').textContent = quizVars.q8_g;
+            document.getElementById('allThree').textContent = quizVars.q8_a;
+            document.getElementById('dogsCats').textContent = quizVars.q8_a + quizVars.q8_b;
+            document.getElementById('dogsFish').textContent = quizVars.q8_a + quizVars.q8_c;
+            document.getElementById('catsFish').textContent = quizVars.q8_a + quizVars.q8_d;
+        }
+
+        // ===== FUNCTION TO DRAW VENN DIAGRAM 1 (Question 7) =====
+        function drawVenn1() {
+            const canvas = document.getElementById('vennCanvas1');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Center positions with MORE overlap
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = 100;
+            const circleOffset = 40; // Increased overlap (was 50)
+            
+            // Draw Choir circle (left)
+            ctx.beginPath();
+            ctx.arc(centerX - circleOffset, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Draw Band circle (right)
+            ctx.beginPath();
+            ctx.arc(centerX + circleOffset, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(52, 152, 219, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Labels with smaller font
+            ctx.font = 'bold 16px Arial'; // Smaller font
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            
+            // Choir label
+            ctx.fillText('Choir', centerX - circleOffset - 50, centerY - radius - 10);
+            
+            // Band label
+            ctx.fillText('Band', centerX + circleOffset + 50, centerY - radius - 10);
+            
+            // Calculate region values
+            const onlyChoir = quizVars.q7_c - quizVars.q7_a;
+            const onlyBand = quizVars.q7_b - quizVars.q7_a;
+            const neither = quizVars.q7_n - (onlyChoir + onlyBand + quizVars.q7_a);
+            
+            // Draw region values - positioned better in overlap
+            ctx.font = 'bold 18px Arial'; // Smaller font for values
+            
+            // Only Choir - positioned left
+            ctx.fillText(onlyChoir, centerX - circleOffset - 60, centerY);
+            
+            // Intersection (Both) - centered in overlap
+            ctx.fillText(quizVars.q7_a, centerX, centerY);
+            
+            // Only Band - positioned right
+            ctx.fillText(onlyBand, centerX + circleOffset + 60, centerY);
+            
+            // Outside (Neither) - positioned below
+            ctx.fillText(neither, centerX, centerY + radius + 30);
+            
+            // Title removed as requested
+        }
+
+        // ===== FUNCTION TO DRAW VENN DIAGRAM 2 (Question 8) =====
+        function drawVenn2() {
+            const canvas = document.getElementById('vennCanvas2');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Center positions with MORE overlap
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = 90;
+            const offset = 60; // Increased overlap (was 70)
+            
+            // Draw Dogs circle (top-left)
+            ctx.beginPath();
+            ctx.arc(centerX - offset, centerY - offset, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Draw Cats circle (top-right)
+            ctx.beginPath();
+            ctx.arc(centerX + offset, centerY - offset, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(52, 152, 219, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Draw Fish circle (bottom)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + offset, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(46, 204, 113, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#2ecc71';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Labels with smaller font
+            ctx.font = 'bold 14px Arial'; // Smaller font
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            
+            // Dogs label
+            ctx.fillText('Dogs', centerX - offset, centerY - offset - radius - 15);
+            
+            // Cats label
+            ctx.fillText('Cats', centerX + offset, centerY - offset - radius - 15);
+            
+            // Fish label
+            ctx.fillText('Fish', centerX, centerY + offset + radius + 20);
+            
+            // Draw region values with smaller font and better positioning
+            ctx.font = 'bold 16px Arial'; // Smaller font
+            ctx.fillStyle = '#2c3e50';
+            
+            // Only Dogs (e) - top-left
+            ctx.fillText(quizVars.q8_e, centerX - offset - 35, centerY - offset - 25);
+            
+            // Only Cats (f) - top-right
+            ctx.fillText(quizVars.q8_f, centerX + offset + 35, centerY - offset - 25);
+            
+            // Only Fish (g) - bottom
+            ctx.fillText(quizVars.q8_g, centerX, centerY + offset + 25);
+            
+            // Dogs ∩ Cats only (b) - top center (in Dogs∩Cats overlap)
+            ctx.fillText(quizVars.q8_b, centerX, centerY - offset - 15);
+            
+            // Dogs ∩ Fish only (c) - left-bottom (in Dogs∩Fish overlap)
+            ctx.fillText(quizVars.q8_c, centerX - 20, centerY + 10);
+            
+            // Cats ∩ Fish only (d) - right-bottom (in Cats∩Fish overlap)
+            ctx.fillText(quizVars.q8_d, centerX + 20, centerY + 10);
+            
+            // All three (a) - center
+            ctx.fillText(quizVars.q8_a, centerX, centerY - 5);
+            
+            // Outside (none) - bottom outside
+            ctx.fillText(quizVars.q8_none, centerX, centerY + offset + radius + 45);
+            
+            // Title removed as requested
+        }
+
+        // ===== FUNCTION TO DRAW VENN DIAGRAM 3 (Question 9 - CHAIN) =====
+        function drawVenn3() {
+            const canvas = document.getElementById('vennCanvas3');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Center positions for chain Venn with PROPER SPACING
+            // M and H should NOT touch - they're connected only through P
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = 90; // Slightly smaller radius for better spacing
+            const offsetX = 130; // Increased spacing between M and H (was 100)
+            
+            // Draw Mathematics circle (left) - M
+            ctx.beginPath();
+            ctx.arc(centerX - offsetX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Draw Physics circle (center) - P
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(52, 152, 219, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Draw History circle (right) - H
+            ctx.beginPath();
+            ctx.arc(centerX + offsetX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(155, 89, 182, 0.2)';
+            ctx.fill();
+            ctx.strokeStyle = '#9b59b6';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Labels for sets
+            ctx.font = 'bold 18px Arial';
+            ctx.fillStyle = '#2c3e50';
+            ctx.textAlign = 'center';
+            
+            // M label - positioned above circle with more space
+            ctx.fillText('M', centerX - offsetX, centerY - radius - 15);
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('Mathematics', centerX - offsetX, centerY - radius - 35);
+            
+            // P label
+            ctx.font = 'bold 18px Arial';
+            ctx.fillText('P', centerX, centerY - radius - 15);
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('Physics', centerX, centerY - radius - 35);
+            
+            // H label
+            ctx.font = 'bold 18px Arial';
+            ctx.fillText('H', centerX + offsetX, centerY - radius - 15);
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('History', centerX + offsetX, centerY - radius - 35);
+            
+            // Draw region values with BETTER POSITIONING
+            ctx.font = 'bold 20px Arial';
+            ctx.fillStyle = '#2c3e50';
+            
+            // M only (not in P or H): a - positioned in left part of M circle
+            ctx.fillText(quizVars.q9_a.toFixed(2), centerX - offsetX - 40, centerY - 10);
+            
+            // M ∩ P only (not in H): p - positioned in M∩P overlap (closer to M side)
+            ctx.fillText('p', centerX - offsetX/2 + 5, centerY - 15);
+            
+            // P only (not in M or H): q - positioned in CENTER of P circle with CLEAR SPACE
+            // Calculate if q is positive to decide color
+            if (quizVars.q9_q >= 0) {
+                ctx.fillStyle = '#2c3e50'; // Normal color
+            } else {
+                ctx.fillStyle = '#e74c3c'; // Red if negative (though shouldn't happen with proper randomization)
+            }
+            ctx.fillText('q', centerX, centerY + 5);
+            ctx.fillStyle = '#2c3e50'; // Reset color
+            
+            // P ∩ H only (not in M): b - positioned in P∩H overlap (closer to H side)
+            ctx.fillText(quizVars.q9_b.toFixed(2), centerX + offsetX/2 - 5, centerY - 15);
+            
+            // H only (not in M or P): c - positioned in right part of H circle
+            ctx.fillText(quizVars.q9_c.toFixed(2), centerX + offsetX + 40, centerY - 10);
+            
+            // Outside all three: d - positioned below with clear space
+            ctx.fillText(quizVars.q9_d.toFixed(2), centerX, centerY + radius + 40);
+            
+            // Add subtle dashed lines to show M and H are disjoint
+            ctx.strokeStyle = '#95a5a6';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 3]);
+            
+            // Line between M and P overlap
+            ctx.beginPath();
+            ctx.moveTo(centerX - offsetX + radius, centerY);
+            ctx.lineTo(centerX, centerY);
+            ctx.stroke();
+            
+            // Line between P and H overlap
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + offsetX - radius, centerY);
+            ctx.stroke();
+            
+            ctx.setLineDash([]); // Reset line style
+            
+            // Add note about M and H being disjoint
+            ctx.font = 'italic 14px Arial';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fillText('Note: M and H are disjoint (no overlap)', width/2, height - 25);
+        }
+
+        // ==================== ANSWER CALCULATION FUNCTIONS ====================
+        // Q7 Calculations
+        function calculateQ7a() {
+            const pBand = quizVars.q7_b / quizVars.q7_n;
+            return 1 - pBand;
+        }
+
+        function calculateQ7b() {
+            const onlyChoir = quizVars.q7_c - quizVars.q7_a;
+            const onlyBand = quizVars.q7_b - quizVars.q7_a;
+            const neither = quizVars.q7_n - (onlyChoir + onlyBand + quizVars.q7_a);
+            return neither / quizVars.q7_n;
+        }
+
+        // Q8 Calculations
+        function calculateQ8a() {
+            return quizVars.q8_e / quizVars.q8_N;
+        }
+
+        function calculateQ8b() {
+            const fishOwners = quizVars.q8_F;
+            return (quizVars.q8_N - fishOwners) / quizVars.q8_N;
+        }
+
+        function calculateQ8c() {
+            return quizVars.q8_none / quizVars.q8_N;
+        }
+
+        // Q9 Calculations
+        function calculateQ9a() {
+            return quizVars.q9_p;
+        }
+
+        function calculateQ9b() {
+            return quizVars.q9_q;
+        }
+
+        // ==================== GRADING & DISPLAY ====================
+        function parseAnswer(inputStr) {
+            inputStr = inputStr.trim();
+            if (inputStr.includes('/')) {
+                const parts = inputStr.split('/').map(Number);
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) {
+                    return parts[0] / parts[1];
+                }
+            }
+            const decimal = parseFloat(inputStr);
+            return isNaN(decimal) ? null : decimal;
+        }
+
+        function checkAnswer(userVal, correctVal) {
+            if (userVal === null) return false;
+            return Math.abs(userVal - correctVal) < 0.001;
+        }
+
+        function formatAnswer(val) {
+            const tol = 0.0001;
+            const commonFractions = [
+                [1/2, '1/2'], [1/3, '1/3'], [2/3, '2/3'], 
+                [1/4, '1/4'], [3/4, '3/4'], [1/5, '1/5'],
+                [2/5, '2/5'], [3/5, '3/5'], [4/5, '4/5']
+            ];
+            
+            for (let [dec, frac] of commonFractions) {
+                if (Math.abs(val - dec) < tol) return frac;
+            }
+            
+            if (Math.abs(val - Math.round(val * 100)/100) < tol) {
+                return val.toFixed(2);
+            }
+            
+            return val.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+        }
+
+        function submitQuiz() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const nameDisplay = studentName ? `, ${studentName}` : '';
+            
+            const answers = [
+                { user: parseAnswer(document.getElementById('ans7a').value), correct: calculateQ7a(), part: '7a' },
+                { user: parseAnswer(document.getElementById('ans7b').value), correct: calculateQ7b(), part: '7b' },
+                { user: parseAnswer(document.getElementById('ans8a').value), correct: calculateQ8a(), part: '8a' },
+                { user: parseAnswer(document.getElementById('ans8b').value), correct: calculateQ8b(), part: '8b' },
+                { user: parseAnswer(document.getElementById('ans8c').value), correct: calculateQ8c(), part: '8c' },
+                { user: parseAnswer(document.getElementById('ans9a').value), correct: calculateQ9a(), part: '9a (p)' },
+                { user: parseAnswer(document.getElementById('ans9b').value), correct: calculateQ9b(), part: '9b (q)' }
+            ];
+
+            let allCorrect = true;
+            let resultHTML = '<h3>Detailed Results:</h3><ul>';
+            answers.forEach(ans => {
+                const isCorrect = checkAnswer(ans.user, ans.correct);
+                if (!isCorrect) allCorrect = false;
+                resultHTML += `<li>Question ${ans.part}: ${isCorrect ? '✅ Correct' : '❌ Incorrect'}. Correct answer: <strong>${formatAnswer(ans.correct)}</strong></li>`;
+            });
+            resultHTML += '</ul>';
+
+            const resultBox = document.getElementById('resultBox');
+            if (allCorrect) {
+                const certificateCode = `QUIZ3-VENN-${Date.now().toString(36).toUpperCase()}`;
+                resultHTML = `
+                    <div class="mastery">
+                        <h2>🎉 MASTERY ACHIEVED! (100%)</h2>
+                        <p>Congratulations${nameDisplay}! You have successfully demonstrated mastery of Venn Diagrams & Set Probability.</p>
+                        <p><strong>Certificate of Mastery:</strong> ${certificateCode}</p>
+                        <p><strong>Awarded to:</strong> ${studentName || 'Student'}</p>
+                        <p><strong>Date:</strong> ${new Date().toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</p>
+                        <p>You have completed all three Probability Mastery Quizzes! 🎓</p>
+                    </div>
+                `;
+                resultBox.className = 'result mastery';
+            } else {
+                resultHTML = `<div class="fail"><h3>Not Yet Mastered</h3>${resultHTML}<p>❌ Score < 100%. Please review and try again.</p></div>`;
+                resultBox.className = 'result fail';
+            }
+            resultBox.innerHTML = resultHTML;
+            resultBox.style.display = 'block';
+            
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        document.getElementById('submitBtn').addEventListener('click', submitQuiz);
+        document.getElementById('resetBtn').addEventListener('click', generateNewQuiz);
+
+        // Initialize the quiz on page load
+        generateNewQuiz();
+    </script>
+</body>
+</html>

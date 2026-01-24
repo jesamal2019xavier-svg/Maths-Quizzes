@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastery Quiz 2: Probability from Tables & Histograms</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            font-size: 16px;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+        h1 { font-size: 28px; }
+        h2 { font-size: 22px; }
+        .question {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #9b59b6;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+        label {
+            display: block;
+            margin: 12px 0;
+            font-weight: 500;
+            font-size: 17px;
+        }
+        input[type="text"] {
+            width: 200px;
+            padding: 12px 14px;
+            margin: 8px 10px 8px 0;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+        .small-note { 
+            font-size: 16px;
+            color: #7f8c8d; 
+            font-style: italic; 
+            margin-top: 18px;
+            padding: 12px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #9b59b6;
+            color: white;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 18px 12px 18px 0;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #8e44ad; }
+        #resetBtn {
+            background-color: #e67e22;
+        }
+        #resetBtn:hover {
+            background-color: #d35400;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .mastery {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+            font-size: 20px;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .var {
+            font-weight: bold;
+            color: #9b59b6;
+            background-color: #f4ecf7;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 18px;
+        }
+        .instructions {
+            background-color: #e8daef;
+            padding: 22px;
+            border-radius: 5px;
+            margin-bottom: 28px;
+            border-left: 4px solid #9b59b6;
+            font-size: 17px;
+        }
+        .question-number {
+            background-color: #9b59b6;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 18px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 22px 0;
+            width: 100%;
+            font-size: 16px;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 10px 6px;
+            text-align: center;
+            min-width: 70px;
+        }
+        .interval-cell {
+            font-size: 15px;
+            line-height: 1.3;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .frequency-table {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        .histogram-container {
+            text-align: center;
+            margin: 28px 0;
+        }
+        canvas {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .student-info {
+            background-color: #e8daef;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .student-info label {
+            margin: 0;
+            font-weight: bold;
+        }
+        .student-info input {
+            flex-grow: 1;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🎯 Mastery Quiz 2: Probability from Tables & Histograms</h1>
+        
+        <div class="student-info">
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" placeholder="Enter your full name" value="">
+        </div>
+        
+        <div class="instructions">
+            <p><strong>Objective:</strong> Score 100% on all parts to demonstrate mastery. Numbers change each attempt.</p>
+            <p><strong>Format:</strong> Enter answers as simplified fractions or decimals to 3 significant figures.</p>
+        </div>
+
+        <!-- Question 1 (Original Q2) -->
+        <div class="question">
+            <div class="question-number">Question 1: Frequency Table</div>
+            <p>The table shows the times taken (in minutes) for a group of students to complete a puzzle:</p>
+            
+            <div class="frequency-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time, t (min)</th>
+                            <td class="interval-cell" id="t1">5 ≤ t < 7</td>
+                            <td class="interval-cell" id="t2">7 ≤ t < 9</td>
+                            <td class="interval-cell" id="t3">9 ≤ t < 11</td>
+                            <td class="interval-cell" id="t4">11 ≤ t < 13</td>
+                            <td class="interval-cell" id="t5">13 ≤ t < 15</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Frequency</th>
+                            <td id="f1">6</td>
+                            <td id="f2">13</td>
+                            <td id="f3">12</td>
+                            <td id="f4">5</td>
+                            <td id="f5">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>A student is chosen at random. Find the probability that they finished the puzzle:</p>
+            <p>a) in under <span class="var" id="targetTime1">9</span> minutes.
+                <br><label for="ans1a">Answer: <input type="text" id="ans1a" placeholder="e.g., 0.475"></label>
+            </p>
+            <p>b) in over <span class="var" id="targetTime2">10.5</span> minutes.
+                <br><label for="ans1b">Answer: <input type="text" id="ans1b"></label>
+            </p>
+            <div class="small-note">Total students: <span id="totalStudents1">40</span></div>
+        </div>
+
+        <!-- Question 2 (Original Q5) -->
+        <div class="question">
+            <div class="question-number">Question 2: Grouped Frequency Table</div>
+            <p>The masses of <span class="var" id="totalDogs">140</span> adult dogs are recorded:</p>
+            
+            <div class="frequency-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mass, m (kg)</th>
+                            <td class="interval-cell" id="m1">45 ≤ m < 48</td>
+                            <td class="interval-cell" id="m2">48 ≤ m < 51</td>
+                            <td class="interval-cell" id="m3">51 ≤ m < 54</td>
+                            <td class="interval-cell" id="m4">54 ≤ m < 57</td>
+                            <td class="interval-cell" id="m5">57 ≤ m < 60</td>
+                            <td class="interval-cell" id="m6">60 ≤ m < 63</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Frequency</th>
+                            <td id="fd1">17</td>
+                            <td id="fd2">25</td>
+                            <td id="fd3">42</td>
+                            <td id="fd4">33</td>
+                            <td id="fd5">21</td>
+                            <td id="fd6">2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>One dog is chosen at random. Find the probability that it has a mass of:</p>
+            <p>a) <span class="var" id="massCondition1">54 kg or more</span>.
+                <br><label for="ans2a">Answer: <input type="text" id="ans2a"></label>
+            </p>
+            <p>b) between <span class="var" id="massCondition2a">48 kg</span> and <span class="var" id="massCondition2b">57 kg</span>.
+                <br><label for="ans2b">Answer: <input type="text" id="ans2b"></label>
+            </p>
+            <p>c) under <span class="var" id="massCondition3">53 kg</span>.
+                <br><label for="ans2c">Answer: <input type="text" id="ans2c"></label>
+            </p>
+        </div>
+
+        <!-- Question 3 (Original Q6) -->
+        <div class="question">
+            <div class="question-number">Question 3: Histogram</div>
+            <p>The histogram below shows the distribution of masses (in kg) of animals.</p>
+            
+            <div class="histogram-container">
+                <canvas id="histogramCanvas" width="700" height="400"></canvas>
+            </div>
+            
+            <p>Estimate the probability that an animal chosen at random has a mass:</p>
+            <p>a) more than <span class="var" id="histTarget1">7.0</span> kg.
+                <br><label for="ans3a">Answer: <input type="text" id="ans3a"></label>
+            </p>
+            <p>b) less than <span class="var" id="histTarget2">7.2</span> kg.
+                <br><label for="ans3b">Answer: <input type="text" id="ans3b"></label>
+            </p>
+        </div>
+
+        <!-- Buttons -->
+        <div>
+            <button id="submitBtn">📥 Submit All Answers</button>
+            <button id="resetBtn">🔄 Generate New Quiz</button>
+        </div>
+
+        <!-- Results Area -->
+        <div id="resultBox" class="result">
+            <!-- Results will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==================== QUIZ STATE & RANDOMIZATION ====================
+        let quizVars = {};
+
+        function generateNewQuiz() {
+            // Clear previous results
+            document.getElementById('resultBox').style.display = 'none';
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                if (input.id !== 'studentName') input.value = '';
+            });
+            
+            // ===== QUESTION 1: Frequency Table (Original Q2) =====
+            const a = Math.floor(Math.random() * 4) + 5; // 5 to 8
+            const d = Math.floor(Math.random() * 3) + 2; // 2 to 4
+            
+            quizVars.q1_intervals = [
+                { start: a, end: a + d },
+                { start: a + d, end: a + 2*d },
+                { start: a + 2*d, end: a + 3*d },
+                { start: a + 3*d, end: a + 4*d },
+                { start: a + 4*d, end: a + 5*d }
+            ];
+            
+            // Generate frequencies (sum between 30 and 50)
+            quizVars.q1_freqs = [];
+            let remaining = Math.floor(Math.random() * 21) + 30; // 30 to 50
+            for (let i = 0; i < 4; i++) {
+                const freq = Math.floor(Math.random() * (remaining/2)) + 3;
+                quizVars.q1_freqs.push(freq);
+                remaining -= freq;
+            }
+            quizVars.q1_freqs.push(remaining);
+            
+            // Random targets as per guidelines
+            const tOptions = [a + d, a + 2*d, a + 3*d];
+            quizVars.q1_target1 = tOptions[Math.floor(Math.random() * tOptions.length)];
+            quizVars.q1_target2 = (Math.floor(Math.random() * ((a + 3*d - 6) * 2)) + 6*2) / 2; // 6 to a+3d in 0.5 steps
+            
+            // ===== QUESTION 2: Dog Masses (Original Q5) =====
+            quizVars.q2_n = Math.floor(Math.random() * 201) + 100; // 100 to 300
+            
+            // Base mass and interval width
+            quizVars.q2_a = Math.floor(Math.random() * 11) + 40; // 40 to 50
+            quizVars.q2_d = Math.floor(Math.random() * 3) + 3; // 3 to 5
+            
+            // Generate frequencies using your percentage formula
+            const p1 = Math.floor(0.10 * quizVars.q2_n);
+            const p2 = Math.floor(0.18 * quizVars.q2_n);
+            const p4 = Math.floor(0.25 * quizVars.q2_n);
+            const p5 = Math.floor(0.15 * quizVars.q2_n);
+            const p6 = Math.floor(0.08 * quizVars.q2_n);
+            const p3 = quizVars.q2_n - (p1 + p2 + p4 + p5 + p6);
+            
+            quizVars.q2_freqs = [p1, p2, p3, p4, p5, p6];
+            quizVars.q2_intervals = [
+                { start: quizVars.q2_a, end: quizVars.q2_a + quizVars.q2_d },
+                { start: quizVars.q2_a + quizVars.q2_d, end: quizVars.q2_a + 2*quizVars.q2_d },
+                { start: quizVars.q2_a + 2*quizVars.q2_d, end: quizVars.q2_a + 3*quizVars.q2_d },
+                { start: quizVars.q2_a + 3*quizVars.q2_d, end: quizVars.q2_a + 4*quizVars.q2_d },
+                { start: quizVars.q2_a + 4*quizVars.q2_d, end: quizVars.q2_a + 5*quizVars.q2_d },
+                { start: quizVars.q2_a + 5*quizVars.q2_d, end: quizVars.q2_a + 6*quizVars.q2_d }
+            ];
+            
+            // Random conditions
+            const massOptions = ['a + d', 'a + 2d', 'a + 3d'];
+            const selectedCondition = massOptions[Math.floor(Math.random() * massOptions.length)];
+            
+            let cond1Value = 0;
+            if (selectedCondition === 'a + d') cond1Value = quizVars.q2_a + quizVars.q2_d;
+            if (selectedCondition === 'a + 2d') cond1Value = quizVars.q2_a + 2*quizVars.q2_d;
+            if (selectedCondition === 'a + 3d') cond1Value = quizVars.q2_a + 3*quizVars.q2_d;
+            quizVars.q2_condition1 = cond1Value;
+            
+            const k = Math.floor(Math.random() * 2) + 3; // 3 or 4
+            quizVars.q2_condition2_start = quizVars.q2_a + quizVars.q2_d;
+            quizVars.q2_condition2_end = quizVars.q2_a + k * quizVars.q2_d;
+            
+            // FIXED: Q2c - random x where a+d < x < a+4d but x ≠ a+2d, x ≠ a+3d
+            const minX = quizVars.q2_a + quizVars.q2_d + 0.1;
+            const maxX = quizVars.q2_a + 4*quizVars.q2_d - 0.1;
+            const exclude1 = quizVars.q2_a + 2*quizVars.q2_d;
+            const exclude2 = quizVars.q2_a + 3*quizVars.q2_d;
+            
+            let validValues = [];
+            for (let val = minX; val <= maxX; val += 0.1) {
+                val = Math.round(val * 10) / 10;
+                if (Math.abs(val - exclude1) > 0.05 && Math.abs(val - exclude2) > 0.05) {
+                    validValues.push(val);
+                }
+            }
+            
+            quizVars.q2_condition3 = validValues[Math.floor(Math.random() * validValues.length)];
+            
+            // ===== QUESTION 3: Histogram (Original Q6) =====
+            // Randomize as per your guidelines
+            const widths = [0.5, 1, 1.5, 2];
+            quizVars.q3_widths = [];
+            for (let i = 0; i < 5; i++) {
+                quizVars.q3_widths.push(widths[Math.floor(Math.random() * widths.length)]);
+            }
+            
+            quizVars.q3_start = (Math.floor(Math.random() * 3) + 3); // 3 to 5
+            let current = quizVars.q3_start;
+            quizVars.q3_intervals = [];
+            for (let i = 0; i < 5; i++) {
+                quizVars.q3_intervals.push({
+                    start: current,
+                    end: current + quizVars.q3_widths[i]
+                });
+                current += quizVars.q3_widths[i];
+            }
+            
+            // UPDATED: Frequency densities as per your new guidelines
+            quizVars.q3_freqDensities = [
+                Math.floor(Math.random() * 5) + 8, // 8-12
+                Math.floor(Math.random() * 5) + 18, // 18-22
+                Math.floor(Math.random() * 7) + 37, // 37-43
+                Math.floor(Math.random() * 5) + 18, // 18-22
+                Math.floor(Math.random() * 5) + 8 // 8-12
+            ];
+            
+            // Calculate frequencies (frequency = density × width)
+            quizVars.q3_freqs = [];
+            let totalFreq = 0;
+            for (let i = 0; i < 5; i++) {
+                const freq = quizVars.q3_freqDensities[i] * quizVars.q3_widths[i];
+                quizVars.q3_freqs.push(freq);
+                totalFreq += freq;
+            }
+            quizVars.q3_total = Math.round(totalFreq);
+            
+            // FIXED TARGETS: 7.0 kg and 7.2 kg as specified
+            quizVars.q3_target1 = 7.0;
+            quizVars.q3_target2 = 7.2;
+            
+            // Update HTML Display
+            updateDisplay();
+            
+            // Draw the histogram
+            drawHistogram(quizVars.q3_intervals, quizVars.q3_freqDensities, quizVars.q3_target1, quizVars.q3_target2);
+        }
+
+        function updateDisplay() {
+            // Q1 Display
+            for (let i = 0; i < 5; i++) {
+                document.getElementById(`t${i+1}`).textContent = 
+                    `${quizVars.q1_intervals[i].start} ≤ t < ${quizVars.q1_intervals[i].end}`;
+                document.getElementById(`f${i+1}`).textContent = quizVars.q1_freqs[i];
+            }
+            document.getElementById('targetTime1').textContent = quizVars.q1_target1;
+            document.getElementById('targetTime2').textContent = quizVars.q1_target2;
+            document.getElementById('totalStudents1').textContent = 
+                quizVars.q1_freqs.reduce((a, b) => a + b, 0);
+            
+            // Q2 Display
+            document.getElementById('totalDogs').textContent = quizVars.q2_n;
+            for (let i = 0; i < 6; i++) {
+                document.getElementById(`m${i+1}`).textContent = 
+                    `${quizVars.q2_intervals[i].start} ≤ m < ${quizVars.q2_intervals[i].end}`;
+                document.getElementById(`fd${i+1}`).textContent = quizVars.q2_freqs[i];
+            }
+            
+            // Display conditions with actual values
+            document.getElementById('massCondition1').textContent = `${quizVars.q2_condition1} kg or more`;
+            document.getElementById('massCondition2a').textContent = `${quizVars.q2_condition2_start} kg`;
+            document.getElementById('massCondition2b').textContent = `${quizVars.q2_condition2_end} kg`;
+            document.getElementById('massCondition3').textContent = `${quizVars.q2_condition3.toFixed(1)} kg`;
+            
+            // Q3 Display
+            document.getElementById('histTarget1').textContent = quizVars.q3_target1.toFixed(1);
+            document.getElementById('histTarget2').textContent = quizVars.q3_target2.toFixed(1);
+        }
+
+        // ===== FUNCTION TO DRAW THE HISTOGRAM =====
+        function drawHistogram(intervals, freqDensities, target1, target2) {
+            const canvas = document.getElementById('histogramCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Chart area margins
+            const margin = { top: 50, right: 40, bottom: 70, left: 70 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            // Find max frequency density for scaling
+            const maxFreqDensity = Math.max(...freqDensities);
+            const scaleY = chartHeight / maxFreqDensity;
+            
+            // Calculate x-axis range starting from 0
+            const dataStart = 0; // Start from 0
+            const dataEnd = intervals[intervals.length-1].end;
+            const totalRange = dataEnd - dataStart;
+            
+            // Draw bars TOUCHING EACH OTHER (no gaps)
+            ctx.fillStyle = '#9b59b6';
+            
+            for (let i = 0; i < intervals.length; i++) {
+                // Calculate bar width proportional to class width
+                const barWidth = (intervals[i].end - intervals[i].start) / totalRange * chartWidth;
+                
+                // Calculate x position starting from 0
+                let xPosition = margin.left + ((intervals[i].start - dataStart) / totalRange * chartWidth);
+                
+                const barHeight = freqDensities[i] * scaleY;
+                const y = height - margin.bottom - barHeight;
+                
+                // Draw bar (touching adjacent bars)
+                ctx.fillRect(xPosition, y, barWidth, barHeight);
+                
+                // Draw black border to separate bars
+                ctx.strokeStyle = '#2c3e50';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(xPosition, y, barWidth, barHeight);
+                
+                // Draw frequency density value on top
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(freqDensities[i], xPosition + barWidth/2, y - 10);
+                
+                // Draw bin boundary labels at bottom
+                ctx.font = '15px Arial';
+                ctx.fillStyle = '#666';
+                
+                // Draw end value for all bars
+                ctx.textAlign = 'center';
+                ctx.fillText(intervals[i].end.toFixed(1), xPosition + barWidth, height - margin.bottom + 20);
+                
+                // Draw start value for first bar
+                if (i === 0) {
+                    ctx.textAlign = 'left';
+                    ctx.fillText('0', margin.left, height - margin.bottom + 20);
+                }
+                
+                ctx.fillStyle = '#9b59b6'; // Reset color
+            }
+            
+            // Draw axes
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            
+            // Y-axis
+            ctx.beginPath();
+            ctx.moveTo(margin.left, height - margin.bottom);
+            ctx.lineTo(margin.left, margin.top);
+            ctx.stroke();
+            
+            // X-axis (starting at 0)
+            ctx.beginPath();
+            ctx.moveTo(margin.left, height - margin.bottom);
+            ctx.lineTo(width - margin.right, height - margin.bottom);
+            ctx.stroke();
+            
+            // Y-axis scale markings
+            ctx.font = '14px Arial';
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'right';
+            
+            // Create nice round numbers for scale
+            const maxScaleValue = Math.ceil(maxFreqDensity / 10) * 10;
+            const scaleSteps = 5;
+            const stepValue = maxScaleValue / scaleSteps;
+            
+            for (let i = 0; i <= scaleSteps; i++) {
+                const freqValue = stepValue * i;
+                const yPos = height - margin.bottom - (freqValue / maxScaleValue * chartHeight);
+                
+                // Only draw if within chart area
+                if (yPos >= margin.top) {
+                    // Draw tick
+                    ctx.beginPath();
+                    ctx.moveTo(margin.left - 8, yPos);
+                    ctx.lineTo(margin.left, yPos);
+                    ctx.stroke();
+                    
+                    // Draw label
+                    ctx.fillText(freqValue.toFixed(0), margin.left - 12, yPos + 5);
+                }
+            }
+            
+            // X-axis label
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 18px Arial';
+            ctx.fillText('Mass (kg)', width/2, height - 20);
+            
+            // Draw target lines for questions (no labels)
+            // Target 1 line (for part a: > 7.0 kg)
+            const target1X = margin.left + ((target1 - dataStart) / totalRange * chartWidth);
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(target1X, margin.top);
+            ctx.lineTo(target1X, height - margin.bottom);
+            ctx.stroke();
+            
+            // Target 2 line (for part b: < 7.2 kg)
+            const target2X = margin.left + ((target2 - dataStart) / totalRange * chartWidth);
+            ctx.strokeStyle = '#3498db';
+            ctx.beginPath();
+            ctx.moveTo(target2X, margin.top);
+            ctx.lineTo(target2X, height - margin.bottom);
+            ctx.stroke();
+            
+            ctx.setLineDash([]); // Reset line style
+        }
+
+        // ==================== ANSWER CALCULATION FUNCTIONS ====================
+        // Q1 Calculations
+        function calculateQ1a() {
+            const total = quizVars.q1_freqs.reduce((a, b) => a + b, 0);
+            let count = 0;
+            for (let i = 0; i < quizVars.q1_intervals.length; i++) {
+                if (quizVars.q1_intervals[i].end <= quizVars.q1_target1) {
+                    count += quizVars.q1_freqs[i];
+                } else if (quizVars.q1_intervals[i].start < quizVars.q1_target1 && 
+                          quizVars.q1_intervals[i].end > quizVars.q1_target1) {
+                    const proportion = (quizVars.q1_target1 - quizVars.q1_intervals[i].start) / 
+                                     (quizVars.q1_intervals[i].end - quizVars.q1_intervals[i].start);
+                    count += quizVars.q1_freqs[i] * proportion;
+                }
+            }
+            return count / total;
+        }
+
+        function calculateQ1b() {
+            const total = quizVars.q1_freqs.reduce((a, b) => a + b, 0);
+            let count = 0;
+            for (let i = 0; i < quizVars.q1_intervals.length; i++) {
+                if (quizVars.q1_intervals[i].start >= quizVars.q1_target2) {
+                    count += quizVars.q1_freqs[i];
+                } else if (quizVars.q1_intervals[i].start < quizVars.q1_target2 && 
+                          quizVars.q1_intervals[i].end > quizVars.q1_target2) {
+                    const proportion = (quizVars.q1_intervals[i].end - quizVars.q1_target2) / 
+                                     (quizVars.q1_intervals[i].end - quizVars.q1_intervals[i].start);
+                    count += quizVars.q1_freqs[i] * proportion;
+                }
+            }
+            return count / total;
+        }
+
+        // Q2 Calculations
+        function calculateQ2a() {
+            const total = quizVars.q2_n;
+            let count = 0;
+            for (let i = 0; i < quizVars.q2_intervals.length; i++) {
+                if (quizVars.q2_intervals[i].start >= quizVars.q2_condition1) {
+                    count += quizVars.q2_freqs[i];
+                }
+            }
+            return count / total;
+        }
+
+        function calculateQ2b() {
+            const total = quizVars.q2_n;
+            let count = 0;
+            for (let i = 0; i < quizVars.q2_intervals.length; i++) {
+                if (quizVars.q2_intervals[i].start >= quizVars.q2_condition2_start && 
+                    quizVars.q2_intervals[i].end <= quizVars.q2_condition2_end) {
+                    count += quizVars.q2_freqs[i];
+                }
+            }
+            return count / total;
+        }
+
+        function calculateQ2c() {
+            const total = quizVars.q2_n;
+            let count = 0;
+            for (let i = 0; i < quizVars.q2_intervals.length; i++) {
+                if (quizVars.q2_intervals[i].end <= quizVars.q2_condition3) {
+                    count += quizVars.q2_freqs[i];
+                } else if (quizVars.q2_intervals[i].start < quizVars.q2_condition3) {
+                    const proportion = (quizVars.q2_condition3 - quizVars.q2_intervals[i].start) / 
+                                     (quizVars.q2_intervals[i].end - quizVars.q2_intervals[i].start);
+                    count += quizVars.q2_freqs[i] * proportion;
+                }
+            }
+            return count / total;
+        }
+
+        // Q3 Calculations
+        function calculateQ3a() {
+            // Calculate total frequency N
+            let N = 0;
+            let frequencies = [];
+            for (let i = 0; i < 5; i++) {
+                const freq = quizVars.q3_widths[i] * quizVars.q3_freqDensities[i];
+                frequencies.push(freq);
+                N += freq;
+            }
+            
+            // Calculate frequency > 7.0 kg
+            let count = 0;
+            for (let i = 0; i < quizVars.q3_intervals.length; i++) {
+                if (quizVars.q3_intervals[i].start >= quizVars.q3_target1) {
+                    count += frequencies[i];
+                } else if (quizVars.q3_intervals[i].start < quizVars.q3_target1 && 
+                          quizVars.q3_intervals[i].end > quizVars.q3_target1) {
+                    const proportion = (quizVars.q3_intervals[i].end - quizVars.q3_target1) / 
+                                     quizVars.q3_widths[i];
+                    count += frequencies[i] * proportion;
+                }
+            }
+            return count / N;
+        }
+
+        function calculateQ3b() {
+            // Calculate total frequency N
+            let N = 0;
+            let frequencies = [];
+            for (let i = 0; i < 5; i++) {
+                const freq = quizVars.q3_widths[i] * quizVars.q3_freqDensities[i];
+                frequencies.push(freq);
+                N += freq;
+            }
+            
+            // Calculate frequency < 7.2 kg
+            let count = 0;
+            for (let i = 0; i < quizVars.q3_intervals.length; i++) {
+                if (quizVars.q3_intervals[i].end <= quizVars.q3_target2) {
+                    count += frequencies[i];
+                } else if (quizVars.q3_intervals[i].start < quizVars.q3_target2) {
+                    const proportion = (quizVars.q3_target2 - quizVars.q3_intervals[i].start) / 
+                                     quizVars.q3_widths[i];
+                    count += frequencies[i] * proportion;
+                }
+            }
+            return count / N;
+        }
+
+        // ==================== GRADING & DISPLAY ====================
+        function parseAnswer(inputStr) {
+            inputStr = inputStr.trim();
+            if (inputStr.includes('/')) {
+                const parts = inputStr.split('/').map(Number);
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) {
+                    return parts[0] / parts[1];
+                }
+            }
+            const decimal = parseFloat(inputStr);
+            return isNaN(decimal) ? null : decimal;
+        }
+
+        function checkAnswer(userVal, correctVal) {
+            if (userVal === null) return false;
+            return Math.abs(userVal - correctVal) < 0.001;
+        }
+
+        function formatAnswer(val) {
+            const tol = 0.0001;
+            const commonFractions = [
+                [1/2, '1/2'], [1/3, '1/3'], [2/3, '2/3'], 
+                [1/4, '1/4'], [3/4, '3/4'], [1/5, '1/5'],
+                [2/5, '2/5'], [3/5, '3/5'], [4/5, '4/5']
+            ];
+            
+            for (let [dec, frac] of commonFractions) {
+                if (Math.abs(val - dec) < tol) return frac;
+            }
+            
+            return val.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+        }
+
+        function submitQuiz() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const nameDisplay = studentName ? `, ${studentName}` : '';
+            
+            const answers = [
+                { user: parseAnswer(document.getElementById('ans1a').value), correct: calculateQ1a(), part: '1a' },
+                { user: parseAnswer(document.getElementById('ans1b').value), correct: calculateQ1b(), part: '1b' },
+                { user: parseAnswer(document.getElementById('ans2a').value), correct: calculateQ2a(), part: '2a' },
+                { user: parseAnswer(document.getElementById('ans2b').value), correct: calculateQ2b(), part: '2b' },
+                { user: parseAnswer(document.getElementById('ans2c').value), correct: calculateQ2c(), part: '2c' },
+                { user: parseAnswer(document.getElementById('ans3a').value), correct: calculateQ3a(), part: '3a' },
+                { user: parseAnswer(document.getElementById('ans3b').value), correct: calculateQ3b(), part: '3b' }
+            ];
+
+            let allCorrect = true;
+            let resultHTML = '<h3>Detailed Results:</h3><ul>';
+            answers.forEach(ans => {
+                const isCorrect = checkAnswer(ans.user, ans.correct);
+                if (!isCorrect) allCorrect = false;
+                resultHTML += `<li>Question ${ans.part}: ${isCorrect ? '✅ Correct' : '❌ Incorrect'}. Correct answer: <strong>${formatAnswer(ans.correct)}</strong></li>`;
+            });
+            resultHTML += '</ul>';
+
+            const resultBox = document.getElementById('resultBox');
+            if (allCorrect) {
+                const certificateCode = `QUIZ2-${Date.now().toString(36).toUpperCase()}`;
+                resultHTML = `
+                    <div class="mastery">
+                        <h2>🎉 MASTERY ACHIEVED! (100%)</h2>
+                        <p>Congratulations${nameDisplay}! You have successfully demonstrated mastery of Probability from Tables & Histograms.</p>
+                        <p><strong>Certificate of Mastery:</strong> ${certificateCode}</p>
+                        <p><strong>Awarded to:</strong> ${studentName || 'Student'}</p>
+                        <p><strong>Date:</strong> ${new Date().toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</p>
+                        <p>You may proceed to Quiz 3: Venn Diagrams.</p>
+                    </div>
+                `;
+                resultBox.className = 'result mastery';
+            } else {
+                resultHTML = `<div class="fail"><h3>Not Yet Mastered</h3>${resultHTML}<p>❌ Score < 100%. Please review and try again.</p></div>`;
+                resultBox.className = 'result fail';
+            }
+            resultBox.innerHTML = resultHTML;
+            resultBox.style.display = 'block';
+            
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        document.getElementById('submitBtn').addEventListener('click', submitQuiz);
+        document.getElementById('resetBtn').addEventListener('click', generateNewQuiz);
+
+        // Initialize the quiz on page load
+        generateNewQuiz();
+    </script>
+</body>
+</html>
